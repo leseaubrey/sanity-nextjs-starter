@@ -16,8 +16,8 @@
     "check-types": "turbo run check-types"
   },
   "dependencies": {
-    "prettier": "^3.8.1",
+    "prettier": "catalog:",
     "turbo": "^2.8.3",
-    "typescript": "^5.9.3"
+    "typescript": "catalog:"
   }
 }

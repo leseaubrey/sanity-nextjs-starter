@@ -2,3 +2,7 @@ packages:
   - apps/*
   - packages/*
   - tooling/*
+
+catalog:
+  prettier: ^3.8.1
+  typescript: ^5.9.3
