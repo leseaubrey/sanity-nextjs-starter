@@ -20,8 +20,8 @@
   ],
   "dependencies": {
     "@sanity/vision": "^5.8.1",
-    "react": "^19.1",
-    "react-dom": "^19.1",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
     "sanity": "^5.8.1",
     "styled-components": "^6.1.18"
   },
@@ -30,8 +30,9 @@
     "@sanity-nextjs-starter/prettier-config": "workspace:*",
     "@sanity-nextjs-starter/tsconfig": "workspace:*",
     "@sanity/eslint-config-studio": "^6.0.0",
-    "@types/react": "^19.1",
-    "eslint": "^9.28",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"
   },
