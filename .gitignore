@@ -31,6 +31,9 @@ node_modules
 out/
 next-env.d.ts
 
+# Sanity
+.sanity/
+
 # Testing
 coverage
 
