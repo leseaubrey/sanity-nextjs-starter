@@ -7,3 +7,7 @@ catalog:
   "@types/node": ^22.19.9
   prettier: ^3.8.1
   typescript: ^5.9.3
+
+publicHoistPattern:
+  - "@ianvs/prettier-plugin-sort-imports"
+  - prettier-plugin-tailwindcss

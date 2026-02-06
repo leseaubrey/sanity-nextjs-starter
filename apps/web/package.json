@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "clean": "git clean -xdf .next .turbo node_modules",
     "build": "next build",
+    "clean": "git clean -xdf .next .turbo node_modules",
+    "dev": "next dev",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
     "start": "next start",
     "lint": "eslint"
   },
@@ -15,6 +16,7 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@sanity-nextjs-starter/prettier-config": "workspace:*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -23,5 +25,6 @@
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "prettier": "@sanity-nextjs-starter/prettier-config"
 }

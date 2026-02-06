@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "sanity dev",
     "clean": "git clean -xdf .sanity .turbo dist node_modules",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
     "start": "sanity start",
     "build": "sanity build",
     "deploy": "sanity deploy",
@@ -23,16 +24,12 @@
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
+    "@sanity-nextjs-starter/prettier-config": "workspace:*",
     "@sanity/eslint-config-studio": "^6.0.0",
     "@types/react": "^19.1",
     "eslint": "^9.28",
     "prettier": "^3.5",
     "typescript": "^5.8"
   },
-  "prettier": {
-    "semi": false,
-    "printWidth": 100,
-    "bracketSpacing": false,
-    "singleQuote": true
-  }
+  "prettier": "@sanity-nextjs-starter/prettier-config"
 }
