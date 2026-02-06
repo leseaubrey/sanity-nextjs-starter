@@ -8,7 +8,8 @@
     "dev": "next dev",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "next": "16.1.6",
@@ -17,14 +18,16 @@
   },
   "devDependencies": {
     "@sanity-nextjs-starter/prettier-config": "workspace:*",
+    "@sanity-nextjs-starter/tsconfig": "workspace:*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "prettier": "catalog:",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "catalog:"
   },
   "prettier": "@sanity-nextjs-starter/prettier-config"
 }

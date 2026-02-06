@@ -14,7 +14,7 @@
     "format:fix": "turbo run format --continue -- --write --cache --cache-location .cache/.prettiercache",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "check-types": "turbo run check-types"
+    "typecheck": "turbo run typecheck"
   },
   "dependencies": {
     "prettier": "catalog:",
