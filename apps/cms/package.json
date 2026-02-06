@@ -6,6 +6,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "dev": "sanity dev",
+    "clean": "git clean -xdf .sanity .turbo dist node_modules",
     "start": "sanity start",
     "build": "sanity build",
     "deploy": "sanity deploy",
