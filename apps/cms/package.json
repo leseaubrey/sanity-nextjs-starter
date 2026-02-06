@@ -2,22 +2,18 @@
   "name": "sanity-nextjs-starter",
   "private": true,
   "version": "1.0.0",
-  "main": "package.json",
-  "license": "UNLICENSED",
   "scripts": {
-    "dev": "sanity dev",
+    "build": "pnpm with-env sanity build",
     "clean": "git clean -xdf .sanity .turbo dist node_modules",
+    "deploy": "pnpm with-env sanity deploy",
+    "deploy-graphql": "pnpm with-env sanity graphql deploy",
+    "dev": "pnpm with-env sanity dev",
     "format": "prettier --check . --ignore-path ../../.gitignore",
-    "start": "sanity start",
-    "build": "sanity build",
-    "deploy": "sanity deploy",
     "lint": "eslint",
-    "deploy-graphql": "sanity graphql deploy",
-    "typecheck": "tsc --noEmit"
+    "start": "pnpm with-env sanity start",
+    "typecheck": "tsc --noEmit",
+    "with-env": "dotenv -e ../../.env --"
   },
-  "keywords": [
-    "sanity"
-  ],
   "dependencies": {
     "@sanity/vision": "^5.8.1",
     "react": "catalog:react19",
