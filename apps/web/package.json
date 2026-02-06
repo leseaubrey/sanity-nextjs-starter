@@ -17,6 +17,7 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@sanity-nextjs-starter/eslint-config": "workspace:*",
     "@sanity-nextjs-starter/prettier-config": "workspace:*",
     "@sanity-nextjs-starter/tsconfig": "workspace:*",
     "@tailwindcss/postcss": "^4",
