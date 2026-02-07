@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "pnpm with-env sanity build",
-    "clean": "git clean -xdf .sanity .turbo dist node_modules",
+    "clean": "git clean -xdf .cache .sanity .turbo dist node_modules",
     "deploy": "pnpm with-env sanity deploy",
     "deploy-graphql": "pnpm with-env sanity graphql deploy",
     "dev": "pnpm with-env sanity dev",
