@@ -9,7 +9,6 @@ export const pageType = defineType({
       name: "title",
       title: "Title",
       type: "string",
-      group: "content",
       validation: (rule) => rule.required(),
     }),
   ],
