@@ -13,12 +13,12 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
+    "@workspace/ui": "workspace:*",
     "next": "16.1.6",
     "react": "catalog:react19",
     "react-dom": "catalog:react19"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
@@ -27,7 +27,6 @@
     "@workspace/tsconfig": "workspace:*",
     "eslint": "catalog:",
     "prettier": "catalog:",
-    "tailwindcss": "^4",
     "typescript": "catalog:"
   },
   "prettier": "@workspace/prettier-config"
