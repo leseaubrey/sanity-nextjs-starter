@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@sanity-nextjs-starter/prettier-config": "workspace:*",
+    "@turbo/gen": "^2.8.3",
     "dotenv-cli": "^11.0.0",
     "prettier": "catalog:",
     "turbo": "^2.8.3",
