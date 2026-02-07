@@ -35,6 +35,9 @@ catalogs:
       specifier: 19.2.4
       version: 19.2.4
 
+overrides:
+  '@types/minimatch': 5.1.2
+
 importers:
 
   .:
@@ -3302,9 +3305,8 @@ packages:
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
 
-  '@types/minimatch@6.0.0':
-    resolution: {integrity: sha512-zmPitbQ8+6zNutpwgcQuLcsEpn/Cj54Kbn7L5pX0Os5kdWplB7xPgEh/g+SWOB/qmows2gpuCaPyduq8ZZRnxA==}
-    deprecated: This is a stub types definition. minimatch provides its own type definitions, so you do not need this installed.
+  '@types/minimatch@5.1.2':
+    resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
 
   '@types/node@22.19.9':
     resolution: {integrity: sha512-PD03/U8g1F9T9MI+1OBisaIARhSzeidsUjQaf51fOxrfjeiKN9bLVO06lHuHYjxdnqLWJijJHfqXPSJri2EM2A==}
@@ -11042,7 +11044,7 @@ snapshots:
 
   '@types/glob@7.2.0':
     dependencies:
-      '@types/minimatch': 6.0.0
+      '@types/minimatch': 5.1.2
       '@types/node': 25.2.1
 
   '@types/hast@3.0.4':
@@ -11058,9 +11060,7 @@ snapshots:
 
   '@types/json5@0.0.29': {}
 
-  '@types/minimatch@6.0.0':
-    dependencies:
-      minimatch: 9.0.0
+  '@types/minimatch@5.1.2': {}
 
   '@types/node@22.19.9':
     dependencies:
