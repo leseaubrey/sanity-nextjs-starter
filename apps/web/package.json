@@ -26,7 +26,6 @@
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
     "eslint": "catalog:",
-    "eslint-config-next": "16.1.6",
     "prettier": "catalog:",
     "tailwindcss": "^4",
     "typescript": "catalog:"
