@@ -39,12 +39,12 @@ importers:
 
   .:
     devDependencies:
-      '@sanity-nextjs-starter/prettier-config':
-        specifier: workspace:*
-        version: link:tooling/prettier
       '@turbo/gen':
         specifier: ^2.8.3
         version: 2.8.3(@swc/core@1.15.11)(@types/node@25.2.1)(typescript@5.9.3)
+      '@workspace/prettier-config':
+        specifier: workspace:*
+        version: link:tooling/prettier
       dotenv-cli:
         specifier: ^11.0.0
         version: 11.0.0
@@ -76,15 +76,6 @@ importers:
         specifier: ^6.1.18
         version: 6.3.8(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
     devDependencies:
-      '@sanity-nextjs-starter/eslint-config':
-        specifier: workspace:*
-        version: link:../../tooling/eslint
-      '@sanity-nextjs-starter/prettier-config':
-        specifier: workspace:*
-        version: link:../../tooling/prettier
-      '@sanity-nextjs-starter/tsconfig':
-        specifier: workspace:*
-        version: link:../../tooling/typescript
       '@sanity/eslint-config-studio':
         specifier: ^6.0.0
         version: 6.0.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
@@ -94,6 +85,15 @@ importers:
       '@types/react-dom':
         specifier: catalog:react19
         version: 19.2.3(@types/react@19.2.13)
+      '@workspace/eslint-config':
+        specifier: workspace:*
+        version: link:../../tooling/eslint
+      '@workspace/prettier-config':
+        specifier: workspace:*
+        version: link:../../tooling/prettier
+      '@workspace/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/typescript
       eslint:
         specifier: 'catalog:'
         version: 9.39.2(jiti@2.6.1)
@@ -116,15 +116,6 @@ importers:
         specifier: catalog:react19
         version: 19.2.4(react@19.2.4)
     devDependencies:
-      '@sanity-nextjs-starter/eslint-config':
-        specifier: workspace:*
-        version: link:../../tooling/eslint
-      '@sanity-nextjs-starter/prettier-config':
-        specifier: workspace:*
-        version: link:../../tooling/prettier
-      '@sanity-nextjs-starter/tsconfig':
-        specifier: workspace:*
-        version: link:../../tooling/typescript
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.1.18
@@ -137,6 +128,15 @@ importers:
       '@types/react-dom':
         specifier: catalog:react19
         version: 19.2.3(@types/react@19.2.13)
+      '@workspace/eslint-config':
+        specifier: workspace:*
+        version: link:../../tooling/eslint
+      '@workspace/prettier-config':
+        specifier: workspace:*
+        version: link:../../tooling/prettier
+      '@workspace/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/typescript
       eslint:
         specifier: 'catalog:'
         version: 9.39.2(jiti@2.6.1)
@@ -149,6 +149,8 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
+
+  packages/ui: {}
 
   tooling/eslint:
     dependencies:
@@ -180,15 +182,15 @@ importers:
         specifier: ^8.46.2
         version: 8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
     devDependencies:
-      '@sanity-nextjs-starter/prettier-config':
-        specifier: workspace:*
-        version: link:../prettier
-      '@sanity-nextjs-starter/tsconfig':
-        specifier: workspace:*
-        version: link:../typescript
       '@types/node':
         specifier: 'catalog:'
         version: 22.19.9
+      '@workspace/prettier-config':
+        specifier: workspace:*
+        version: link:../prettier
+      '@workspace/tsconfig':
+        specifier: workspace:*
+        version: link:../typescript
       eslint:
         specifier: 'catalog:'
         version: 9.39.2(jiti@2.6.1)
@@ -211,12 +213,12 @@ importers:
         specifier: ^0.7.2
         version: 0.7.2(@ianvs/prettier-plugin-sort-imports@4.7.1(prettier@3.8.1))(prettier@3.8.1)
     devDependencies:
-      '@sanity-nextjs-starter/tsconfig':
-        specifier: workspace:*
-        version: link:../typescript
       '@types/node':
         specifier: 'catalog:'
         version: 22.19.9
+      '@workspace/tsconfig':
+        specifier: workspace:*
+        version: link:../typescript
       typescript:
         specifier: 'catalog:'
         version: 5.9.3

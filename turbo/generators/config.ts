@@ -17,7 +17,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         type: "input",
         name: "name",
         message:
-          "What is the name of the package? (You can skip the `@sanity-nextjs-starter/` prefix)",
+          "What is the name of the package? (You can skip the `@workspace/` prefix)",
       },
       {
         type: "input",
@@ -29,8 +29,8 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
     actions: [
       (answers) => {
         if ("name" in answers && typeof answers.name === "string") {
-          if (answers.name.startsWith("@sanity-nextjs-starter/")) {
-            answers.name = answers.name.replace("@sanity-nextjs-starter/", "");
+          if (answers.name.startsWith("@workspace/")) {
+            answers.name = answers.name.replace("@workspace/", "");
           }
         }
         return "Config sanitized";

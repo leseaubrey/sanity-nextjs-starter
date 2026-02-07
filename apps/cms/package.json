@@ -1,5 +1,5 @@
 {
-  "name": "sanity-nextjs-starter",
+  "name": "cms",
   "private": true,
   "version": "1.0.0",
   "scripts": {
@@ -22,15 +22,15 @@
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
-    "@sanity-nextjs-starter/eslint-config": "workspace:*",
-    "@sanity-nextjs-starter/prettier-config": "workspace:*",
-    "@sanity-nextjs-starter/tsconfig": "workspace:*",
     "@sanity/eslint-config-studio": "^6.0.0",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/prettier-config": "workspace:*",
+    "@workspace/tsconfig": "workspace:*",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"
   },
-  "prettier": "@sanity-nextjs-starter/prettier-config"
+  "prettier": "@workspace/prettier-config"
 }

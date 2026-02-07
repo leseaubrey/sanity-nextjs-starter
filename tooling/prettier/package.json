@@ -1,5 +1,5 @@
 {
-  "name": "@sanity-nextjs-starter/prettier-config",
+  "name": "@workspace/prettier-config",
   "private": true,
   "type": "module",
   "exports": {
@@ -16,9 +16,9 @@
     "prettier-plugin-tailwindcss": "^0.7.2"
   },
   "devDependencies": {
-    "@sanity-nextjs-starter/tsconfig": "workspace:*",
     "@types/node": "catalog:",
+    "@workspace/tsconfig": "workspace:*",
     "typescript": "catalog:"
   },
-  "prettier": "@sanity-nextjs-starter/prettier-config"
+  "prettier": "@workspace/prettier-config"
 }
