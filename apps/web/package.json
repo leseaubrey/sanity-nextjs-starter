@@ -18,17 +18,17 @@
     "react-dom": "catalog:react19"
   },
   "devDependencies": {
-    "@sanity-nextjs-starter/eslint-config": "workspace:*",
-    "@sanity-nextjs-starter/prettier-config": "workspace:*",
-    "@sanity-nextjs-starter/tsconfig": "workspace:*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/prettier-config": "workspace:*",
+    "@workspace/tsconfig": "workspace:*",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "tailwindcss": "^4",
     "typescript": "catalog:"
   },
-  "prettier": "@sanity-nextjs-starter/prettier-config"
+  "prettier": "@workspace/prettier-config"
 }

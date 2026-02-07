@@ -1,1 +1,1 @@
-# sanity-nextjs-starter
+# Sanity Next.js Starter

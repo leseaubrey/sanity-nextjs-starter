@@ -1,12 +1,8 @@
 // @ts-ignore
 import studio from "@sanity/eslint-config-studio";
+import { baseConfig, restrictEnvAccess } from "@workspace/eslint-config/base";
+import { reactConfig } from "@workspace/eslint-config/react";
 import { defineConfig } from "eslint/config";
-
-import {
-  baseConfig,
-  restrictEnvAccess,
-} from "@sanity-nextjs-starter/eslint-config/base";
-import { reactConfig } from "@sanity-nextjs-starter/eslint-config/react";
 
 export default defineConfig(
   {
