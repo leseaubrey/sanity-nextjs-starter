@@ -1,0 +1,26 @@
+{
+  "name": "@sanity-nextjs-starter/{{ name }}",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "tsc",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "devDependencies": {
+    "@sanity-nextjs-starter/eslint-config": "workspace:*",
+    "@sanity-nextjs-starter/prettier-config": "workspace:*",
+    "@sanity-nextjs-starter/tsconfig": "workspace:*",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
+  },
+  "prettier": "@sanity-nextjs-starter/prettier-config"
+}

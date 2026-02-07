@@ -1,0 +1,7 @@
+{
+  "name": "@sanity-nextjs-starter/tsconfig",
+  "private": true,
+  "files": [
+    "*.json"
+  ]
+}

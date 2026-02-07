@@ -2,36 +2,35 @@
   "name": "sanity-nextjs-starter",
   "private": true,
   "version": "1.0.0",
-  "main": "package.json",
-  "license": "UNLICENSED",
   "scripts": {
-    "dev": "sanity dev",
-    "start": "sanity start",
-    "build": "sanity build",
-    "deploy": "sanity deploy",
-    "deploy-graphql": "sanity graphql deploy"
+    "build": "pnpm with-env sanity build",
+    "clean": "git clean -xdf .sanity .turbo dist node_modules",
+    "deploy": "pnpm with-env sanity deploy",
+    "deploy-graphql": "pnpm with-env sanity graphql deploy",
+    "dev": "pnpm with-env sanity dev",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "start": "pnpm with-env sanity start",
+    "typecheck": "tsc --noEmit",
+    "with-env": "dotenv -e ../../.env --"
   },
-  "keywords": [
-    "sanity"
-  ],
   "dependencies": {
     "@sanity/vision": "^5.8.1",
-    "react": "^19.1",
-    "react-dom": "^19.1",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
     "sanity": "^5.8.1",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
+    "@sanity-nextjs-starter/eslint-config": "workspace:*",
+    "@sanity-nextjs-starter/prettier-config": "workspace:*",
+    "@sanity-nextjs-starter/tsconfig": "workspace:*",
     "@sanity/eslint-config-studio": "^6.0.0",
-    "@types/react": "^19.1",
-    "eslint": "^9.28",
-    "prettier": "^3.5",
-    "typescript": "^5.8"
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
   },
-  "prettier": {
-    "semi": false,
-    "printWidth": 100,
-    "bracketSpacing": false,
-    "singleQuote": true
-  }
+  "prettier": "@sanity-nextjs-starter/prettier-config"
 }
