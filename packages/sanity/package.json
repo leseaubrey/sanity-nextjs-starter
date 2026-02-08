@@ -12,18 +12,20 @@
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "prettier --check . --ignore-path ../../.gitignore",
+    "generate-types": "sanity schema extract --enforce-required-fields && sanity typegen generate",
     "lint": "eslint",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@sanity/client": "^7.14.1",
     "next-sanity": "^12.1.0",
     "sanity": "^5.8.1"
   },
   "devDependencies": {
+    "@types/react": "catalog:react19",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/prettier-config": "workspace:*",
     "@workspace/tsconfig": "workspace:*",
-    "@types/react": "catalog:react19",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"

@@ -9,7 +9,6 @@
     "deploy-graphql": "pnpm with-env sanity graphql deploy",
     "dev": "pnpm with-env sanity dev",
     "format": "prettier --check . --ignore-path ../../.gitignore",
-    "generate-types": "sanity schema extract --enforce-required-fields && sanity typegen generate",
     "lint": "eslint",
     "start": "pnpm with-env sanity start",
     "typecheck": "tsc --noEmit",
