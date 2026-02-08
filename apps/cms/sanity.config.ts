@@ -2,7 +2,7 @@ import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 
-import { env } from "@workspace/env/client";
+import { env } from "@workspace/env/sanity";
 import { schemaTypes } from "@workspace/sanity/schemas";
 
 export default defineConfig({
