@@ -20,13 +20,13 @@
       "persistent": false
     },
     "format": {},
-    "generate-types": {},
     "lint": {
       "dependsOn": ["^topo", "^build"]
     },
     "typecheck": {
       "dependsOn": ["^topo", "^build"]
     },
+    "typegen": {},
     "ui-add": {
       "cache": false,
       "interactive": true

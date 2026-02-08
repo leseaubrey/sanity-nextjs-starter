@@ -1,29 +1,22 @@
 {
-  "name": "@workspace/sanity",
-  "version": "0.0.0",
+  "name": "@workspace/env",
   "private": true,
   "type": "module",
   "exports": {
-    "./schemas": "./src/schemas/index.ts",
     "./client": "./src/client.ts",
-    "./live": "./src/live.ts",
-    "./queries": "./src/queries.ts"
+    "./server": "./src/server.ts"
   },
+  "license": "MIT",
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
-    "typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate"
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@sanity/client": "^7.14.1",
-    "@workspace/env": "workspace:*",
-    "next-sanity": "^12.1.0",
-    "sanity": "^5.8.1"
+    "effect": "^3.19.16"
   },
   "devDependencies": {
-    "@types/react": "catalog:react19",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/prettier-config": "workspace:*",
     "@workspace/tsconfig": "workspace:*",

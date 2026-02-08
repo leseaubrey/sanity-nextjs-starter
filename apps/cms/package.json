@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@sanity/vision": "^5.8.1",
+    "@workspace/env": "workspace:*",
     "@workspace/sanity": "workspace:*",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
