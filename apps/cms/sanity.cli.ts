@@ -1,15 +1,17 @@
 import { defineCliConfig } from "sanity/cli";
 
+import { env } from "@workspace/env/client";
+
 export default defineCliConfig({
   api: {
-    projectId: "9xvnzhzp",
-    dataset: "production",
+    projectId: env.SANITY_STUDIO_SANITY_PROJECT_ID,
+    dataset: env.SANITY_STUDIO_SANITY_DATASET,
   },
   deployment: {
     /**
      * Enable auto-updates for studios.
      * Learn more at https://www.sanity.io/docs/studio/latest-version-of-sanity#k47faf43faf56
      */
-    autoUpdates: true,
+    autoUpdates: false,
   },
 });
