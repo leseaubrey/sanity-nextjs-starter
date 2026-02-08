@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "exports": {
+    "./schemas": "./src/schemas/index.ts",
     "./client": "./src/client.ts",
     "./live": "./src/live.ts",
     "./queries": "./src/queries.ts"
@@ -15,7 +16,8 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "next-sanity": "^12.1.0"
+    "next-sanity": "^12.1.0",
+    "sanity": "^5.8.1"
   },
   "devDependencies": {
     "@workspace/eslint-config": "workspace:*",
