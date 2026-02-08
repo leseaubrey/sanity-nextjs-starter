@@ -13,9 +13,11 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
+    "@workspace/env": "workspace:*",
     "@workspace/sanity": "workspace:*",
     "@workspace/ui": "workspace:*",
     "next": "16.1.6",
+    "next-sanity": "^12.1.0",
     "react": "catalog:react19",
     "react-dom": "catalog:react19"
   },

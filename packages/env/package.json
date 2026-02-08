@@ -4,6 +4,7 @@
   "type": "module",
   "exports": {
     "./client": "./src/client.ts",
+    "./sanity": "./src/sanity.ts",
     "./server": "./src/server.ts"
   },
   "license": "MIT",
