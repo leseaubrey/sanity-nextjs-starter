@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import "@workspace/ui/globals.css";
 
+import { SanityLive } from "@workspace/sanity/live";
+
 const fontSans = Geist({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -29,6 +31,7 @@ export default function RootLayout({
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}
       >
         {children}
+        <SanityLive />
       </body>
     </html>
   );
