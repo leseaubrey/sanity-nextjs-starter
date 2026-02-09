@@ -23,6 +23,13 @@ export type Page = {
   _updatedAt: string;
   _rev: string;
   title: string;
+  slug: Slug;
+};
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -138,14 +145,9 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
-};
-
 export type AllSanitySchemaTypes =
   | Page
+  | Slug
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -155,20 +157,25 @@ export type AllSanitySchemaTypes =
   | SanityFileAsset
   | SanityAssetSourceData
   | SanityImageAsset
-  | Geopoint
-  | Slug;
+  | Geopoint;
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
-// Source: src/queries.ts
-// Variable: PAGE_QUERY
+// Source: src/queries/page.ts
+// Variable: PAGE_BY_SLUG_QUERY
 // Query: *[_type == "page" && slug.current == $slug][0]{    title  }
-export type PAGE_QUERY_RESULT = {
+export type PAGE_BY_SLUG_QUERY_RESULT = {
   title: string;
 } | null;
 
+// Source: src/queries/page.ts
+// Variable: ALL_PAGE_SLUGS_QUERY
+// Query: *[_type == "page" && defined(slug.current)].slug.current
+export type ALL_PAGE_SLUGS_QUERY_RESULT = Array<string>;
+
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[_type == "page" && slug.current == $slug][0]{\n    title\n  }\n': PAGE_QUERY_RESULT;
+    '\n  *[_type == "page" && slug.current == $slug][0]{\n    title\n  }\n': PAGE_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "page" && defined(slug.current)].slug.current\n': ALL_PAGE_SLUGS_QUERY_RESULT;
   }
 }
