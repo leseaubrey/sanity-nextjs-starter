@@ -1,6 +1,6 @@
 import { defineCliConfig } from "sanity/cli";
 
-import { env } from "@workspace/env/client";
+import { env } from "@workspace/env/sanity";
 
 export default defineCliConfig({
   api: {
