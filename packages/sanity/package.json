@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "exports": {
+    "./queries": "./src/queries/index.ts",
     "./schemas": "./src/schemas/index.ts",
     "./client": "./src/client.ts",
-    "./live": "./src/live.ts",
-    "./queries": "./src/queries.ts"
+    "./live": "./src/live.ts"
   },
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
