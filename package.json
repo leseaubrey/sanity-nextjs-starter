@@ -18,7 +18,7 @@
     "lint:ws": "pnpm dlx sherif@latest",
     "postinstall": "pnpm lint:ws",
     "typecheck": "turbo run typecheck",
-    "typegen": "turbo run generate-types",
+    "typegen": "turbo run typegen",
     "ui-add": "turbo run ui-add"
   },
   "devDependencies": {
