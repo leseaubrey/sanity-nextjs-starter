@@ -32,6 +32,16 @@ export type Slug = {
   source?: string;
 };
 
+export type Publication = {
+  _id: string;
+  _type: "publication";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+};
+
 export type Post = {
   _id: string;
   _type: "post";
@@ -45,6 +55,16 @@ export type Post = {
 export type Page = {
   _id: string;
   _type: "page";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+};
+
+export type Category = {
+  _id: string;
+  _type: "category";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -178,8 +198,10 @@ export type Geopoint = {
 export type AllSanitySchemaTypes =
   | TeamMember
   | Slug
+  | Publication
   | Post
   | Page
+  | Category
   | Author
   | SanityImagePaletteSwatch
   | SanityImagePalette
@@ -206,6 +228,18 @@ export type AUTHOR_BY_SLUG_QUERY_RESULT = {
 // Query: *[_type == "author" && defined(slug.current)].slug.current
 export type ALL_AUTHOR_SLUGS_QUERY_RESULT = Array<string>;
 
+// Source: src/queries/category.ts
+// Variable: CATEGORY_BY_SLUG_QUERY
+// Query: *[_type == "category" && slug.current == $slug][0]{    title  }
+export type CATEGORY_BY_SLUG_QUERY_RESULT = {
+  title: string;
+} | null;
+
+// Source: src/queries/category.ts
+// Variable: ALL_CATEGORY_SLUGS_QUERY
+// Query: *[_type == "category" && defined(slug.current)].slug.current
+export type ALL_CATEGORY_SLUGS_QUERY_RESULT = Array<string>;
+
 // Source: src/queries/page.ts
 // Variable: PAGE_BY_SLUG_QUERY
 // Query: *[_type == "page" && slug.current == $slug][0]{    title  }
@@ -230,6 +264,18 @@ export type POST_BY_SLUG_QUERY_RESULT = {
 // Query: *[_type == "post" && defined(slug.current)].slug.current
 export type ALL_POST_SLUGS_QUERY_RESULT = Array<string>;
 
+// Source: src/queries/publication.ts
+// Variable: PUBLICATION_BY_SLUG_QUERY
+// Query: *[_type == "publication" && slug.current == $slug][0]{    title  }
+export type PUBLICATION_BY_SLUG_QUERY_RESULT = {
+  title: string;
+} | null;
+
+// Source: src/queries/publication.ts
+// Variable: ALL_PUBLICATION_SLUGS_QUERY
+// Query: *[_type == "publication" && defined(slug.current)].slug.current
+export type ALL_PUBLICATION_SLUGS_QUERY_RESULT = Array<string>;
+
 // Source: src/queries/team-member.ts
 // Variable: TEAM_MEMBER_BY_SLUG_QUERY
 // Query: *[_type == "teamMember" && slug.current == $slug][0]{    name  }
@@ -246,10 +292,14 @@ declare module "@sanity/client" {
   interface SanityQueries {
     '\n  *[_type == "author" && slug.current == $slug][0]{\n    name\n  }\n': AUTHOR_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "author" && defined(slug.current)].slug.current\n': ALL_AUTHOR_SLUGS_QUERY_RESULT;
+    '\n  *[_type == "category" && slug.current == $slug][0]{\n    title\n  }\n': CATEGORY_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "category" && defined(slug.current)].slug.current\n': ALL_CATEGORY_SLUGS_QUERY_RESULT;
     '\n  *[_type == "page" && slug.current == $slug][0]{\n    title\n  }\n': PAGE_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "page" && defined(slug.current)].slug.current\n': ALL_PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "post" && slug.current == $slug][0]{\n    title\n  }\n': POST_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "post" && defined(slug.current)].slug.current\n': ALL_POST_SLUGS_QUERY_RESULT;
+    '\n  *[_type == "publication" && slug.current == $slug][0]{\n    title\n  }\n': PUBLICATION_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "publication" && defined(slug.current)].slug.current\n': ALL_PUBLICATION_SLUGS_QUERY_RESULT;
     '\n  *[_type == "teamMember" && slug.current == $slug][0]{\n    name\n  }\n': TEAM_MEMBER_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "teamMember" && defined(slug.current)].slug.current\n': ALL_TEAM_MEMBER_SLUGS_QUERY_RESULT;
   }
