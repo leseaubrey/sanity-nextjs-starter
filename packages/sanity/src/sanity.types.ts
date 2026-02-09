@@ -16,6 +16,22 @@ import "@sanity/client";
  */
 
 // Source: schema.json
+export type TeamMember = {
+  _id: string;
+  _type: "teamMember";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  slug: Slug;
+};
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
+};
+
 export type Post = {
   _id: string;
   _type: "post";
@@ -26,12 +42,6 @@ export type Post = {
   slug: Slug;
 };
 
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
-};
-
 export type Page = {
   _id: string;
   _type: "page";
@@ -39,6 +49,16 @@ export type Page = {
   _updatedAt: string;
   _rev: string;
   title: string;
+  slug: Slug;
+};
+
+export type Author = {
+  _id: string;
+  _type: "author";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
   slug: Slug;
 };
 
@@ -156,9 +176,11 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
-  | Post
+  | TeamMember
   | Slug
+  | Post
   | Page
+  | Author
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -171,6 +193,18 @@ export type AllSanitySchemaTypes =
   | Geopoint;
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
+
+// Source: src/queries/author.ts
+// Variable: AUTHOR_BY_SLUG_QUERY
+// Query: *[_type == "author" && slug.current == $slug][0]{    name  }
+export type AUTHOR_BY_SLUG_QUERY_RESULT = {
+  name: string;
+} | null;
+
+// Source: src/queries/author.ts
+// Variable: ALL_AUTHOR_SLUGS_QUERY
+// Query: *[_type == "author" && defined(slug.current)].slug.current
+export type ALL_AUTHOR_SLUGS_QUERY_RESULT = Array<string>;
 
 // Source: src/queries/page.ts
 // Variable: PAGE_BY_SLUG_QUERY
@@ -196,11 +230,27 @@ export type POST_BY_SLUG_QUERY_RESULT = {
 // Query: *[_type == "post" && defined(slug.current)].slug.current
 export type ALL_POST_SLUGS_QUERY_RESULT = Array<string>;
 
+// Source: src/queries/team-member.ts
+// Variable: TEAM_MEMBER_BY_SLUG_QUERY
+// Query: *[_type == "teamMember" && slug.current == $slug][0]{    name  }
+export type TEAM_MEMBER_BY_SLUG_QUERY_RESULT = {
+  name: string;
+} | null;
+
+// Source: src/queries/team-member.ts
+// Variable: ALL_TEAM_MEMBER_SLUGS_QUERY
+// Query: *[_type == "teamMember" && defined(slug.current)].slug.current
+export type ALL_TEAM_MEMBER_SLUGS_QUERY_RESULT = Array<string>;
+
 declare module "@sanity/client" {
   interface SanityQueries {
+    '\n  *[_type == "author" && slug.current == $slug][0]{\n    name\n  }\n': AUTHOR_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "author" && defined(slug.current)].slug.current\n': ALL_AUTHOR_SLUGS_QUERY_RESULT;
     '\n  *[_type == "page" && slug.current == $slug][0]{\n    title\n  }\n': PAGE_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "page" && defined(slug.current)].slug.current\n': ALL_PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "post" && slug.current == $slug][0]{\n    title\n  }\n': POST_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "post" && defined(slug.current)].slug.current\n': ALL_POST_SLUGS_QUERY_RESULT;
+    '\n  *[_type == "teamMember" && slug.current == $slug][0]{\n    name\n  }\n': TEAM_MEMBER_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "teamMember" && defined(slug.current)].slug.current\n': ALL_TEAM_MEMBER_SLUGS_QUERY_RESULT;
   }
 }
