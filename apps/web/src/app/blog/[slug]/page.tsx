@@ -8,7 +8,7 @@ export const generateStaticParams = async () => {
   }));
 };
 
-export default async function DynamicPage({
+export default async function PostPage({
   params,
 }: {
   params: Promise<{ slug: string }>;

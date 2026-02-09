@@ -5,7 +5,7 @@ export default async function AuthorsPage() {
   const result = await fetchPageBySlug("authors");
 
   if (!result.data) {
-    return <div>Page not found</div>;
+    return <div>Author not found</div>;
   }
 
   return (
