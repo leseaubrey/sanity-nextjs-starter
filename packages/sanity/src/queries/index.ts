@@ -2,3 +2,4 @@
 import "../sanity.types";
 
 export * from "./page";
+export * from "./post";

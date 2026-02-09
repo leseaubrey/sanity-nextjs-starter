@@ -16,9 +16,9 @@ import "@sanity/client";
  */
 
 // Source: schema.json
-export type Page = {
+export type Post = {
   _id: string;
-  _type: "page";
+  _type: "post";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -30,6 +30,16 @@ export type Slug = {
   _type: "slug";
   current: string;
   source?: string;
+};
+
+export type Page = {
+  _id: string;
+  _type: "page";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -146,8 +156,9 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
-  | Page
+  | Post
   | Slug
+  | Page
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -173,9 +184,23 @@ export type PAGE_BY_SLUG_QUERY_RESULT = {
 // Query: *[_type == "page" && defined(slug.current)].slug.current
 export type ALL_PAGE_SLUGS_QUERY_RESULT = Array<string>;
 
+// Source: src/queries/post.ts
+// Variable: POST_BY_SLUG_QUERY
+// Query: *[_type == "post" && slug.current == $slug][0]{    title  }
+export type POST_BY_SLUG_QUERY_RESULT = {
+  title: string;
+} | null;
+
+// Source: src/queries/post.ts
+// Variable: ALL_POST_SLUGS_QUERY
+// Query: *[_type == "post" && defined(slug.current)].slug.current
+export type ALL_POST_SLUGS_QUERY_RESULT = Array<string>;
+
 declare module "@sanity/client" {
   interface SanityQueries {
     '\n  *[_type == "page" && slug.current == $slug][0]{\n    title\n  }\n': PAGE_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "page" && defined(slug.current)].slug.current\n': ALL_PAGE_SLUGS_QUERY_RESULT;
+    '\n  *[_type == "post" && slug.current == $slug][0]{\n    title\n  }\n': POST_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "post" && defined(slug.current)].slug.current\n': ALL_POST_SLUGS_QUERY_RESULT;
   }
 }
