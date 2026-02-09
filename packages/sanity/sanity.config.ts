@@ -1,6 +1,6 @@
 import { defineConfig } from "sanity";
 
-import { env } from "@workspace/env/client";
+import { env } from "@workspace/env/sanity";
 
 import { schemaTypes } from "./src/schemas";
 
