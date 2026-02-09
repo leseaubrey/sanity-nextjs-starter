@@ -1,8 +1,8 @@
 import { fetchPageBySlug } from "@workspace/sanity/queries";
 
-export default async function HomePage() {
+export default async function TeamPage() {
   // TODO: Magic string
-  const result = await fetchPageBySlug("home");
+  const result = await fetchPageBySlug("team");
 
   if (!result.data) {
     return <div>Page not found</div>;
@@ -10,7 +10,7 @@ export default async function HomePage() {
 
   return (
     <div className="flex min-h-svh items-center justify-center">
-      <div className="flex flex-col justify-center gap-4">
+      <div className="flex flex-col items-center justify-center gap-4">
         <h1 className="text-2xl font-bold">{result.data.title}</h1>
       </div>
     </div>
