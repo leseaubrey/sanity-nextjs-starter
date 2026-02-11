@@ -16,6 +16,13 @@ import "@sanity/client";
  */
 
 // Source: schema.json
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+};
+
 export type TeamMember = {
   _id: string;
   _type: "teamMember";
@@ -24,6 +31,39 @@ export type TeamMember = {
   _rev: string;
   name: string;
   slug: Slug;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  role?: string;
+  bio?: string;
+  socialNetworkProfiles?: {
+    linkedin?: string;
+    x?: string;
+    facebook?: string;
+    instagram?: string;
+    youtube?: string;
+    gitHub?: string;
+  };
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x: number;
+  y: number;
+  height: number;
+  width: number;
 };
 
 export type Slug = {
@@ -120,22 +160,6 @@ export type SanityImageMetadata = {
   isOpaque?: boolean;
 };
 
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x: number;
-  y: number;
-  height: number;
-  width: number;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
 export type SanityFileAsset = {
   _id: string;
   _type: "sanity.fileAsset";
@@ -196,7 +220,10 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | SanityImageAssetReference
   | TeamMember
+  | SanityImageCrop
+  | SanityImageHotspot
   | Slug
   | Publication
   | Post
@@ -207,8 +234,6 @@ export type AllSanitySchemaTypes =
   | SanityImagePalette
   | SanityImageDimensions
   | SanityImageMetadata
-  | SanityImageHotspot
-  | SanityImageCrop
   | SanityFileAsset
   | SanityAssetSourceData
   | SanityImageAsset
@@ -277,6 +302,30 @@ export type PUBLICATION_BY_SLUG_QUERY_RESULT = {
 export type ALL_PUBLICATION_SLUGS_QUERY_RESULT = Array<string>;
 
 // Source: src/queries/team-member.ts
+// Variable: TEAM_MEMBERS_QUERY
+// Query: *[_type == "teamMember" && defined(slug.current)]{    _id,    name,    "slug": slug.current,      image {    "id": asset._ref,    "preview": asset->metadata.lqip,    hotspot { x, y },    crop {      bottom,      left,      right,      top,    }  },    role  }
+export type TEAM_MEMBERS_QUERY_RESULT = Array<{
+  _id: string;
+  name: string;
+  slug: string;
+  image: {
+    id: string | null;
+    preview: string | null;
+    hotspot: {
+      x: number;
+      y: number;
+    } | null;
+    crop: {
+      bottom: number;
+      left: number;
+      right: number;
+      top: number;
+    } | null;
+  } | null;
+  role: string | null;
+}>;
+
+// Source: src/queries/team-member.ts
 // Variable: TEAM_MEMBER_BY_SLUG_QUERY
 // Query: *[_type == "teamMember" && slug.current == $slug][0]{    name  }
 export type TEAM_MEMBER_BY_SLUG_QUERY_RESULT = {
@@ -300,6 +349,7 @@ declare module "@sanity/client" {
     '\n  *[_type == "post" && defined(slug.current)].slug.current\n': ALL_POST_SLUGS_QUERY_RESULT;
     '\n  *[_type == "publication" && slug.current == $slug][0]{\n    title\n  }\n': PUBLICATION_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "publication" && defined(slug.current)].slug.current\n': ALL_PUBLICATION_SLUGS_QUERY_RESULT;
+    '\n  *[_type == "teamMember" && defined(slug.current)]{\n    _id,\n    name,\n    "slug": slug.current,\n    \n  image {\n    "id": asset._ref,\n    "preview": asset->metadata.lqip,\n    hotspot { x, y },\n    crop {\n      bottom,\n      left,\n      right,\n      top,\n    }\n  }\n,\n    role\n  }\n': TEAM_MEMBERS_QUERY_RESULT;
     '\n  *[_type == "teamMember" && slug.current == $slug][0]{\n    name\n  }\n': TEAM_MEMBER_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "teamMember" && defined(slug.current)].slug.current\n': ALL_TEAM_MEMBER_SLUGS_QUERY_RESULT;
   }
