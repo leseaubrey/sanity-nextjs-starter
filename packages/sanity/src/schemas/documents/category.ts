@@ -11,7 +11,7 @@ export const categoryType = defineType({
       title: "Title",
       type: "string",
       group: "content",
-      validation: (rule) => rule.required(),
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
@@ -22,7 +22,7 @@ export const categoryType = defineType({
         source: "title",
         maxLength: 96,
       },
-      validation: (rule) => rule.required(),
+      validation: (Rule) => Rule.required(),
     }),
   ],
   preview: {
