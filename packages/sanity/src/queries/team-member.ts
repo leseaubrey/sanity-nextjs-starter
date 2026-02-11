@@ -22,7 +22,12 @@ export const fetchTeamMembers = () => {
 
 const TEAM_MEMBER_BY_SLUG_QUERY = defineQuery(`
   *[_type == "teamMember" && slug.current == $slug][0]{
-    name
+    name,
+    "slug": slug.current,
+    ${imageFragment},
+    role,
+    bio,
+    socialNetworkProfiles
   }
 `);
 
