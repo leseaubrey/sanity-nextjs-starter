@@ -1,5 +1,7 @@
 import { defineField, defineType } from "sanity";
 
+import { socialNetworkProfiles } from "../fields";
+
 export const teamMemberType = defineType({
   name: "teamMember",
   title: "Team Member",
@@ -24,6 +26,25 @@ export const teamMemberType = defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "image",
+      title: "Image",
+      type: "image",
+      group: "content",
+    }),
+    defineField({
+      name: "role",
+      title: "Role",
+      type: "string",
+      group: "content",
+    }),
+    defineField({
+      name: "bio",
+      title: "Bio",
+      type: "text",
+      group: "content",
+    }),
+    socialNetworkProfiles,
   ],
   preview: {
     select: {
