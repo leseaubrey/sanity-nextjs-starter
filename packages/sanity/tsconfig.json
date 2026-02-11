@@ -1,6 +1,10 @@
 {
-  "extends": "@workspace/tsconfig/compiled-package.json",
-  "compilerOptions": {},
+  "extends": "@workspace/tsconfig/base.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "dom", "dom.iterable"],
+    "jsx": "preserve",
+    "rootDir": "."
+  },
   "include": ["*.ts", "src"],
   "exclude": ["node_modules"]
 }

@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "exports": {
+    "./components": "./src/components/index.ts",
     "./queries": "./src/queries/index.ts",
     "./schemas": "./src/schemas/index.ts",
     "./client": "./src/client.ts",
@@ -21,7 +22,8 @@
     "@sanity/client": "^7.14.1",
     "@workspace/env": "workspace:*",
     "next-sanity": "^12.1.0",
-    "sanity": "^5.8.1"
+    "sanity": "^5.8.1",
+    "sanity-image": "^1.0.0"
   },
   "devDependencies": {
     "@types/react": "catalog:react19",
