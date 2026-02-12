@@ -1,18 +1,31 @@
-import { fetchPageBySlug } from "@workspace/sanity/queries";
+import { fetchPageBySlug, fetchTeamMembers } from "@workspace/sanity/queries";
+
+import { TeamMembersGrid } from "~/components/team/team-members-grid";
 
 export default async function TeamPage() {
-  // TODO: Magic string
-  const result = await fetchPageBySlug("team");
+  // TODO: Magic string, single query?
+  const [{ data: pageData }, { data: teamMembers }] = await Promise.all([
+    fetchPageBySlug("team"),
+    fetchTeamMembers(),
+  ]);
 
-  if (!result.data) {
+  if (!pageData) {
     return <div>Page not found</div>;
   }
 
   return (
-    <div className="flex min-h-svh items-center justify-center">
-      <div className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl font-bold">{result.data.title}</h1>
+    <>
+      <div className="container py-20">
+        <h1 className="text-2xl font-bold">{pageData.title}</h1>
       </div>
-    </div>
+
+      {teamMembers.length > 0 && (
+        <div className="bg-gray-50 py-12">
+          <div className="container mx-auto">
+            <TeamMembersGrid teamMembers={teamMembers} />
+          </div>
+        </div>
+      )}
+    </>
   );
 }

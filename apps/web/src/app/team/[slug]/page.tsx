@@ -1,7 +1,12 @@
+import Link from "next/link";
+
+import { SanityImage } from "@workspace/sanity/components";
 import {
   fetchAllTeamMemberSlugs,
   fetchTeamMemberBySlug,
 } from "@workspace/sanity/queries";
+
+import { SocialMediaLinks } from "~/components/shared/social-media-links";
 
 export const generateStaticParams = async () => {
   const result = await fetchAllTeamMemberSlugs();
@@ -18,17 +23,51 @@ export default async function TeamMemberPage({
 }) {
   const { slug } = await params;
 
-  const result = await fetchTeamMemberBySlug(slug);
+  const { data } = await fetchTeamMemberBySlug(slug);
 
-  if (!result.data) {
+  if (!data) {
     return <div>Team Member not found</div>;
   }
 
   return (
-    <div className="flex min-h-svh items-center justify-center">
-      <div className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl font-bold">Team Member: {result.data.name}</h1>
+    <>
+      <div className="container mx-auto py-20">
+        <div className="grid grid-cols-4 gap-4">
+          {data.image?.id && (
+            <div className="col-span-1">
+              <SanityImage id={data.image.id} />
+            </div>
+          )}
+
+          <div className="col-span-2 col-start-2">
+            {/* TODO: Magic string */}
+            <Link href={"/team"} className="mb-8 inline-block">
+              Back to team
+            </Link>
+
+            <div className="mb-4">
+              <h1 className="text-foreground font-medium tracking-tight">
+                {data.name}
+              </h1>
+
+              {data.role && (
+                <span className="text-foreground/50 text-sm">{data.role}</span>
+              )}
+            </div>
+
+            {/* TODO: Prose */}
+            {data.bio && <div>{data.bio}</div>}
+
+            {data.socialMediaLinks && (
+              <SocialMediaLinks links={data.socialMediaLinks} />
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+
+      {/* TODO: Team member posts */}
+
+      {/* TODO: Team member publications */}
+    </>
   );
 }
