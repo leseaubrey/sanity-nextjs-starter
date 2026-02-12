@@ -40,14 +40,11 @@ export type TeamMember = {
   };
   role?: string;
   bio?: string;
-  socialNetworkProfiles?: {
-    linkedin?: string;
-    x?: string;
-    facebook?: string;
-    instagram?: string;
-    youtube?: string;
-    gitHub?: string;
-  };
+  socialMediaLinks?: Array<
+    {
+      _key: string;
+    } & SocialMediaLink
+  >;
 };
 
 export type SanityImageCrop = {
@@ -120,6 +117,12 @@ export type Author = {
   _rev: string;
   name: string;
   slug: Slug;
+};
+
+export type SocialMediaLink = {
+  _type: "socialMediaLink";
+  platform: "linkedin" | "x" | "facebook" | "instagram" | "youtube" | "github";
+  url: string;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -230,6 +233,7 @@ export type AllSanitySchemaTypes =
   | Page
   | Category
   | Author
+  | SocialMediaLink
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -327,7 +331,7 @@ export type TEAM_MEMBERS_QUERY_RESULT = Array<{
 
 // Source: src/queries/team-member.ts
 // Variable: TEAM_MEMBER_BY_SLUG_QUERY
-// Query: *[_type == "teamMember" && slug.current == $slug][0]{    name,    "slug": slug.current,      image {    "id": asset._ref,    "preview": asset->metadata.lqip,    hotspot { x, y },    crop {      bottom,      left,      right,      top,    }  },    role,    bio,    socialNetworkProfiles  }
+// Query: *[_type == "teamMember" && slug.current == $slug][0]{    name,    "slug": slug.current,      image {    "id": asset._ref,    "preview": asset->metadata.lqip,    hotspot { x, y },    crop {      bottom,      left,      right,      top,    }  },    role,    bio,    socialMediaLinks  }
 export type TEAM_MEMBER_BY_SLUG_QUERY_RESULT = {
   name: string;
   slug: string;
@@ -347,14 +351,11 @@ export type TEAM_MEMBER_BY_SLUG_QUERY_RESULT = {
   } | null;
   role: string | null;
   bio: string | null;
-  socialNetworkProfiles: {
-    linkedin?: string;
-    x?: string;
-    facebook?: string;
-    instagram?: string;
-    youtube?: string;
-    gitHub?: string;
-  } | null;
+  socialMediaLinks: Array<
+    {
+      _key: string;
+    } & SocialMediaLink
+  > | null;
 } | null;
 
 // Source: src/queries/team-member.ts
@@ -375,7 +376,7 @@ declare module "@sanity/client" {
     '\n  *[_type == "publication" && slug.current == $slug][0]{\n    title\n  }\n': PUBLICATION_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "publication" && defined(slug.current)].slug.current\n': ALL_PUBLICATION_SLUGS_QUERY_RESULT;
     '\n  *[_type == "teamMember" && defined(slug.current)]{\n    _id,\n    name,\n    "slug": slug.current,\n    \n  image {\n    "id": asset._ref,\n    "preview": asset->metadata.lqip,\n    hotspot { x, y },\n    crop {\n      bottom,\n      left,\n      right,\n      top,\n    }\n  }\n,\n    role\n  }\n': TEAM_MEMBERS_QUERY_RESULT;
-    '\n  *[_type == "teamMember" && slug.current == $slug][0]{\n    name,\n    "slug": slug.current,\n    \n  image {\n    "id": asset._ref,\n    "preview": asset->metadata.lqip,\n    hotspot { x, y },\n    crop {\n      bottom,\n      left,\n      right,\n      top,\n    }\n  }\n,\n    role,\n    bio,\n    socialNetworkProfiles\n  }\n': TEAM_MEMBER_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "teamMember" && slug.current == $slug][0]{\n    name,\n    "slug": slug.current,\n    \n  image {\n    "id": asset._ref,\n    "preview": asset->metadata.lqip,\n    hotspot { x, y },\n    crop {\n      bottom,\n      left,\n      right,\n      top,\n    }\n  }\n,\n    role,\n    bio,\n    socialMediaLinks\n  }\n': TEAM_MEMBER_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "teamMember" && defined(slug.current)].slug.current\n': ALL_TEAM_MEMBER_SLUGS_QUERY_RESULT;
   }
 }

@@ -1,6 +1,6 @@
 import { defineField, defineType } from "sanity";
 
-import { socialNetworkProfiles } from "../fields";
+import { socialMediaLinks } from "../fields";
 
 export const teamMemberType = defineType({
   name: "teamMember",
@@ -44,7 +44,7 @@ export const teamMemberType = defineType({
       type: "text",
       group: "content",
     }),
-    socialNetworkProfiles,
+    socialMediaLinks,
   ],
   preview: {
     select: {

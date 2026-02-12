@@ -27,7 +27,7 @@ const TEAM_MEMBER_BY_SLUG_QUERY = defineQuery(`
     ${imageFragment},
     role,
     bio,
-    socialNetworkProfiles
+    socialMediaLinks
   }
 `);
 
