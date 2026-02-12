@@ -6,6 +6,8 @@ import {
   fetchTeamMemberBySlug,
 } from "@workspace/sanity/queries";
 
+import { SocialMediaLinks } from "~/components/shared/social-media-links";
+
 export const generateStaticParams = async () => {
   const result = await fetchAllTeamMemberSlugs();
 
@@ -56,7 +58,9 @@ export default async function TeamMemberPage({
             {/* TODO: Prose */}
             {data.bio && <div>{data.bio}</div>}
 
-            {/* TODO: Team member social networks */}
+            {data.socialMediaLinks && (
+              <SocialMediaLinks links={data.socialMediaLinks} />
+            )}
           </div>
         </div>
       </div>
