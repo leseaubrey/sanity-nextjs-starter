@@ -1,25 +1,27 @@
 import { defineField, defineType } from "sanity";
 
-export const authorType = defineType({
-  name: "author",
-  title: "Author",
+import { FIELD_GROUP, FIELD_GROUPS } from "../../constants";
+
+export const themeType = defineType({
+  name: "theme",
+  title: "Theme",
   type: "document",
-  groups: [{ name: "content", title: "Content", default: true }],
+  groups: FIELD_GROUPS,
   fields: [
     defineField({
-      name: "name",
-      title: "Name",
+      name: "title",
+      title: "Title",
       type: "string",
-      group: "content",
+      group: FIELD_GROUP.CONTENT,
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
-      group: "content",
+      group: FIELD_GROUP.CONTENT,
       options: {
-        source: "name",
+        source: "title",
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),
@@ -27,10 +29,10 @@ export const authorType = defineType({
   ],
   preview: {
     select: {
-      name: "name",
+      title: "title",
     },
-    prepare: ({ name }) => ({
-      title: `${name ?? "Unnamed Author"}`,
+    prepare: ({ title }) => ({
+      title: `${title ?? "Untitled Theme"}`,
     }),
   },
 });

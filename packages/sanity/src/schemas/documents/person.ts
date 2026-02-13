@@ -1,25 +1,26 @@
 import { defineField, defineType } from "sanity";
 
+import { FIELD_GROUP, FIELD_GROUPS } from "../../constants";
 import { socialMediaLinks } from "../fields";
 
-export const teamMemberType = defineType({
-  name: "teamMember",
-  title: "Team Member",
+export const personType = defineType({
+  name: "person",
+  title: "Person",
   type: "document",
-  groups: [{ name: "content", title: "Content", default: true }],
+  groups: FIELD_GROUPS,
   fields: [
     defineField({
       name: "name",
       title: "Name",
       type: "string",
-      group: "content",
+      group: FIELD_GROUP.CONTENT,
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
-      group: "content",
+      group: FIELD_GROUP.CONTENT,
       options: {
         source: "name",
         maxLength: 96,
@@ -30,19 +31,19 @@ export const teamMemberType = defineType({
       name: "image",
       title: "Image",
       type: "image",
-      group: "content",
+      group: FIELD_GROUP.CONTENT,
     }),
     defineField({
       name: "role",
       title: "Role",
       type: "string",
-      group: "content",
+      group: FIELD_GROUP.CONTENT,
     }),
     defineField({
       name: "bio",
       title: "Bio",
       type: "text",
-      group: "content",
+      group: FIELD_GROUP.CONTENT,
     }),
     socialMediaLinks,
   ],
@@ -51,7 +52,7 @@ export const teamMemberType = defineType({
       name: "name",
     },
     prepare: ({ name }) => ({
-      title: `${name ?? "Unnamed Team Member"}`,
+      title: `${name ?? "Unnamed Person"}`,
     }),
   },
 });
