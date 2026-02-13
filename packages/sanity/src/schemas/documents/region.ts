@@ -1,23 +1,25 @@
 import { defineField, defineType } from "sanity";
 
-export const categoryType = defineType({
-  name: "category",
-  title: "Category",
+import { FIELD_GROUP, FIELD_GROUPS } from "../../constants";
+
+export const regionType = defineType({
+  name: "region",
+  title: "Region",
   type: "document",
-  groups: [{ name: "content", title: "Content", default: true }],
+  groups: FIELD_GROUPS,
   fields: [
     defineField({
       name: "title",
       title: "Title",
       type: "string",
-      group: "content",
+      group: FIELD_GROUP.CONTENT,
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
-      group: "content",
+      group: FIELD_GROUP.CONTENT,
       options: {
         source: "title",
         maxLength: 96,
@@ -30,7 +32,7 @@ export const categoryType = defineType({
       title: "title",
     },
     prepare: ({ title }) => ({
-      title: `${title ?? "Untitled Category"}`,
+      title: `${title ?? "Untitled Region"}`,
     }),
   },
 });

@@ -2,9 +2,9 @@ import { defineField, defineType } from "sanity";
 
 import { FIELD_GROUP, FIELD_GROUPS } from "../../constants";
 
-export const publicationType = defineType({
-  name: "publication",
-  title: "Publication",
+export const eventType = defineType({
+  name: "event",
+  title: "Event",
   type: "document",
   groups: FIELD_GROUPS,
   fields: [
@@ -27,11 +27,10 @@ export const publicationType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "publishedDate",
-      title: "Published Date",
+      name: "eventDate",
+      title: "Event Date",
       type: "date",
       group: FIELD_GROUP.CONTENT,
-      validation: (Rule) => Rule.required(),
       initialValue: new Date().toISOString().slice(0, 10),
     }),
     defineField({
@@ -57,34 +56,13 @@ export const publicationType = defineType({
       group: FIELD_GROUP.CONTENT,
       of: [{ type: "block" }],
     }),
-    defineField({
-      name: "authors",
-      title: "Authors",
-      type: "array",
-      group: FIELD_GROUP.CONTENT,
-      of: [{ type: "reference", to: [{ type: "person" }] }],
-    }),
-    defineField({
-      name: "regions",
-      title: "Regions",
-      type: "array",
-      group: FIELD_GROUP.CONTENT,
-      of: [{ type: "reference", to: [{ type: "region" }] }],
-    }),
-    defineField({
-      name: "themes",
-      title: "Themes",
-      type: "array",
-      group: FIELD_GROUP.CONTENT,
-      of: [{ type: "reference", to: [{ type: "theme" }] }],
-    }),
   ],
   preview: {
     select: {
       title: "title",
     },
     prepare: ({ title }) => ({
-      title: `${title ?? "Untitled Publication"}`,
+      title: `${title ?? "Untitled Event"}`,
     }),
   },
 });

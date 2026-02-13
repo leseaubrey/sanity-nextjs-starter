@@ -2,9 +2,9 @@ import { defineField, defineType } from "sanity";
 
 import { FIELD_GROUP, FIELD_GROUPS } from "../../constants";
 
-export const publicationType = defineType({
-  name: "publication",
-  title: "Publication",
+export const projectType = defineType({
+  name: "project",
+  title: "Project",
   type: "document",
   groups: FIELD_GROUPS,
   fields: [
@@ -29,8 +29,8 @@ export const publicationType = defineType({
     defineField({
       name: "publishedDate",
       title: "Published Date",
-      type: "date",
       group: FIELD_GROUP.CONTENT,
+      type: "date",
       validation: (Rule) => Rule.required(),
       initialValue: new Date().toISOString().slice(0, 10),
     }),
@@ -38,8 +38,8 @@ export const publicationType = defineType({
       name: "excerpt",
       title: "Excerpt",
       type: "text",
-      group: FIELD_GROUP.CONTENT,
       rows: 4,
+      group: FIELD_GROUP.CONTENT,
     }),
     defineField({
       name: "image",
@@ -84,7 +84,7 @@ export const publicationType = defineType({
       title: "title",
     },
     prepare: ({ title }) => ({
-      title: `${title ?? "Untitled Publication"}`,
+      title: `${title ?? "Untitled Project"}`,
     }),
   },
 });
