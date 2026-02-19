@@ -62,21 +62,45 @@ export const postType = defineType({
       title: "Authors",
       type: "array",
       group: FIELD_GROUP.CONTENT,
-      of: [{ type: "reference", to: [{ type: "person" }] }],
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "person" }],
+          options: {
+            disableNew: true,
+          },
+        },
+      ],
     }),
     defineField({
       name: "regions",
       title: "Regions",
       type: "array",
       group: FIELD_GROUP.CONTENT,
-      of: [{ type: "reference", to: [{ type: "region" }] }],
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "region" }],
+          options: {
+            disableNew: true,
+          },
+        },
+      ],
     }),
     defineField({
       name: "themes",
       title: "Themes",
       type: "array",
       group: FIELD_GROUP.CONTENT,
-      of: [{ type: "reference", to: [{ type: "theme" }] }],
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "theme" }],
+          options: {
+            disableNew: true,
+          },
+        },
+      ],
     }),
   ],
   preview: {
