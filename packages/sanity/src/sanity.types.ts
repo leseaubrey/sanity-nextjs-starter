@@ -49,27 +49,6 @@ export type SanityImageAssetReference = {
   [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
-export type PersonReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "person";
-};
-
-export type RegionReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "region";
-};
-
-export type ThemeReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "theme";
-};
-
 export type Project = {
   _id: string;
   _type: "project";
@@ -78,7 +57,6 @@ export type Project = {
   _rev: string;
   title: string;
   slug: Slug;
-  publishedDate: string;
   excerpt?: string;
   image?: {
     asset?: SanityImageAssetReference;
@@ -105,21 +83,6 @@ export type Project = {
     _type: "block";
     _key: string;
   }>;
-  authors?: Array<
-    {
-      _key: string;
-    } & PersonReference
-  >;
-  regions?: Array<
-    {
-      _key: string;
-    } & RegionReference
-  >;
-  themes?: Array<
-    {
-      _key: string;
-    } & ThemeReference
-  >;
 };
 
 export type SanityImageCrop = {
@@ -136,6 +99,27 @@ export type SanityImageHotspot = {
   y: number;
   height: number;
   width: number;
+};
+
+export type PersonReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "person";
+};
+
+export type RegionReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "region";
+};
+
+export type ThemeReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "theme";
 };
 
 export type Publication = {
@@ -421,12 +405,12 @@ export type AllSanitySchemaTypes =
   | Slug
   | Region
   | SanityImageAssetReference
-  | PersonReference
-  | RegionReference
-  | ThemeReference
   | Project
   | SanityImageCrop
   | SanityImageHotspot
+  | PersonReference
+  | RegionReference
+  | ThemeReference
   | Publication
   | Post
   | Person
@@ -444,25 +428,53 @@ export type AllSanitySchemaTypes =
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
-// Source: src/queries/author.ts
-// Variable: AUTHOR_BY_SLUG_QUERY
-// Query: *[_type == "author" && slug.current == $slug][0]{    name  }
-export type AUTHOR_BY_SLUG_QUERY_RESULT = null;
-
-// Source: src/queries/author.ts
-// Variable: ALL_AUTHOR_SLUGS_QUERY
-// Query: *[_type == "author" && defined(slug.current)].slug.current
-export type ALL_AUTHOR_SLUGS_QUERY_RESULT = Array<never>;
-
-// Source: src/queries/category.ts
-// Variable: CATEGORY_BY_SLUG_QUERY
-// Query: *[_type == "category" && slug.current == $slug][0]{    title  }
-export type CATEGORY_BY_SLUG_QUERY_RESULT = null;
-
-// Source: src/queries/category.ts
-// Variable: ALL_CATEGORY_SLUGS_QUERY
-// Query: *[_type == "category" && defined(slug.current)].slug.current
-export type ALL_CATEGORY_SLUGS_QUERY_RESULT = Array<never>;
+// Source: src/queries/event.ts
+// Variable: EVENTS_SPLIT_QUERY
+// Query: {    "upcoming": *[      _type == "event" &&      defined(slug.current) &&      defined(eventDate) &&      eventDate >= $now    ] | order(eventDate asc) {      _id,      title,      "slug": slug.current,      eventDate,      excerpt,      image {          "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  }      }    },    "past": *[      _type == "event" &&      defined(slug.current) &&      defined(eventDate) &&      eventDate < $now    ] | order(eventDate desc) {      _id,      title,      "slug": slug.current,      eventDate,      excerpt,      image {          "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  }      }    }  }
+export type EVENTS_SPLIT_QUERY_RESULT = {
+  upcoming: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+    eventDate: string | null;
+    excerpt: string | null;
+    image: {
+      id: string | null;
+      preview: string | null;
+      hotspot: {
+        x: number;
+        y: number;
+      } | null;
+      crop: {
+        bottom: number;
+        left: number;
+        right: number;
+        top: number;
+      } | null;
+    } | null;
+  }>;
+  past: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+    eventDate: string | null;
+    excerpt: string | null;
+    image: {
+      id: string | null;
+      preview: string | null;
+      hotspot: {
+        x: number;
+        y: number;
+      } | null;
+      crop: {
+        bottom: number;
+        left: number;
+        right: number;
+        top: number;
+      } | null;
+    } | null;
+  }>;
+};
 
 // Source: src/queries/page.ts
 // Variable: PAGE_BY_SLUG_QUERY
@@ -536,10 +548,112 @@ export type PERSON_BY_SLUG_QUERY_RESULT = {
 export type ALL_PERSON_SLUGS_QUERY_RESULT = Array<string>;
 
 // Source: src/queries/post.ts
-// Variable: POST_BY_SLUG_QUERY
-// Query: *[_type == "post" && slug.current == $slug][0]{    title  }
-export type POST_BY_SLUG_QUERY_RESULT = {
+// Variable: POSTS_QUERY
+// Query: *[_type == "post" && defined(slug.current)] {    _id,    _type,    title,    "slug": slug.current,    publishedDate,    excerpt,    image {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  },    },    "authors": authors[]->{      _id,      name,      "slug": slug.current,        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  },      role,    },    "regions": regions[]->{      _id,      title,      "slug": slug.current    },    "themes": themes[]->{      _id,      title,      "slug": slug.current    }  }
+export type POSTS_QUERY_RESULT = Array<{
+  _id: string;
+  _type: "post";
   title: string;
+  slug: string;
+  publishedDate: string;
+  excerpt: string | null;
+  image: {
+    id: string | null;
+    preview: string | null;
+    hotspot: {
+      x: number;
+      y: number;
+    } | null;
+    crop: {
+      bottom: number;
+      left: number;
+      right: number;
+      top: number;
+    } | null;
+  } | null;
+  authors: Array<{
+    _id: string;
+    name: string;
+    slug: string;
+    id: null;
+    preview: null;
+    hotspot: null;
+    crop: null;
+    role: string | null;
+  }> | null;
+  regions: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+  }> | null;
+  themes: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+  }> | null;
+}>;
+
+// Source: src/queries/post.ts
+// Variable: POST_BY_SLUG_QUERY
+// Query: *[_type == "post" && slug.current == $slug][0]{    _id,    _type,    title,    "slug": slug.current,    publishedDate,    image {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  },    },    content,    "authors": authors[]->{      _id,      name,      "slug": slug.current,        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  },      role,    },    "regions": regions[]->{      _id,      title,      "slug": slug.current    },    "themes": themes[]->{      _id,      title,      "slug": slug.current    }  }
+export type POST_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  _type: "post";
+  title: string;
+  slug: string;
+  publishedDate: string;
+  image: {
+    id: string | null;
+    preview: string | null;
+    hotspot: {
+      x: number;
+      y: number;
+    } | null;
+    crop: {
+      bottom: number;
+      left: number;
+      right: number;
+      top: number;
+    } | null;
+  } | null;
+  content: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  authors: Array<{
+    _id: string;
+    name: string;
+    slug: string;
+    id: null;
+    preview: null;
+    hotspot: null;
+    crop: null;
+    role: string | null;
+  }> | null;
+  regions: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+  }> | null;
+  themes: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+  }> | null;
 } | null;
 
 // Source: src/queries/post.ts
@@ -547,11 +661,185 @@ export type POST_BY_SLUG_QUERY_RESULT = {
 // Query: *[_type == "post" && defined(slug.current)].slug.current
 export type ALL_POST_SLUGS_QUERY_RESULT = Array<string>;
 
+// Source: src/queries/project.ts
+// Variable: PROJECTS_QUERY
+// Query: *[_type == "post" && defined(slug.current)] {    _id,    _type,    title,    "slug": slug.current,    excerpt,    image {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  },    }  }
+export type PROJECTS_QUERY_RESULT = Array<{
+  _id: string;
+  _type: "post";
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  image: {
+    id: string | null;
+    preview: string | null;
+    hotspot: {
+      x: number;
+      y: number;
+    } | null;
+    crop: {
+      bottom: number;
+      left: number;
+      right: number;
+      top: number;
+    } | null;
+  } | null;
+}>;
+
+// Source: src/queries/project.ts
+// Variable: PROJECT_BY_SLUG_QUERY
+// Query: *[_type == "project" && slug.current == $slug][0]{    _id,    _type,    title,    "slug": slug.current,    image {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  },    },    content  }
+export type PROJECT_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  _type: "project";
+  title: string;
+  slug: string;
+  image: {
+    id: string | null;
+    preview: string | null;
+    hotspot: {
+      x: number;
+      y: number;
+    } | null;
+    crop: {
+      bottom: number;
+      left: number;
+      right: number;
+      top: number;
+    } | null;
+  } | null;
+  content: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+} | null;
+
+// Source: src/queries/project.ts
+// Variable: ALL_PROJECT_SLUGS_QUERY
+// Query: *[_type == "project" && defined(slug.current)].slug.current
+export type ALL_PROJECT_SLUGS_QUERY_RESULT = Array<string>;
+
+// Source: src/queries/publication.ts
+// Variable: PUBLICATIONS_QUERY
+// Query: *[_type == "publication" && defined(slug.current)] {    _id,    _type,    title,    "slug": slug.current,    publishedDate,    excerpt,    image {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  },    },    "authors": authors[]->{      _id,      name,      "slug": slug.current,        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  },      role,    },    "regions": regions[]->{      _id,      title,      "slug": slug.current    },    "themes": themes[]->{      _id,      title,      "slug": slug.current    }  }
+export type PUBLICATIONS_QUERY_RESULT = Array<{
+  _id: string;
+  _type: "publication";
+  title: string;
+  slug: string;
+  publishedDate: string;
+  excerpt: string | null;
+  image: {
+    id: string | null;
+    preview: string | null;
+    hotspot: {
+      x: number;
+      y: number;
+    } | null;
+    crop: {
+      bottom: number;
+      left: number;
+      right: number;
+      top: number;
+    } | null;
+  } | null;
+  authors: Array<{
+    _id: string;
+    name: string;
+    slug: string;
+    id: null;
+    preview: null;
+    hotspot: null;
+    crop: null;
+    role: string | null;
+  }> | null;
+  regions: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+  }> | null;
+  themes: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+  }> | null;
+}>;
+
 // Source: src/queries/publication.ts
 // Variable: PUBLICATION_BY_SLUG_QUERY
-// Query: *[_type == "publication" && slug.current == $slug][0]{    title  }
+// Query: *[_type == "publication" && slug.current == $slug][0]{    _id,    _type,    title,    "slug": slug.current,    publishedDate,    image {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  },    },    content,    "authors": authors[]->{      _id,      name,      "slug": slug.current,        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  },      role,    },    "regions": regions[]->{      _id,      title,      "slug": slug.current    },    "themes": themes[]->{      _id,      title,      "slug": slug.current    }  }
 export type PUBLICATION_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  _type: "publication";
   title: string;
+  slug: string;
+  publishedDate: string;
+  image: {
+    id: string | null;
+    preview: string | null;
+    hotspot: {
+      x: number;
+      y: number;
+    } | null;
+    crop: {
+      bottom: number;
+      left: number;
+      right: number;
+      top: number;
+    } | null;
+  } | null;
+  content: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  authors: Array<{
+    _id: string;
+    name: string;
+    slug: string;
+    id: null;
+    preview: null;
+    hotspot: null;
+    crop: null;
+    role: string | null;
+  }> | null;
+  regions: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+  }> | null;
+  themes: Array<{
+    _id: string;
+    title: string;
+    slug: string;
+  }> | null;
 } | null;
 
 // Source: src/queries/publication.ts
@@ -559,20 +847,74 @@ export type PUBLICATION_BY_SLUG_QUERY_RESULT = {
 // Query: *[_type == "publication" && defined(slug.current)].slug.current
 export type ALL_PUBLICATION_SLUGS_QUERY_RESULT = Array<string>;
 
+// Source: src/queries/region.ts
+// Variable: REGIONS_QUERY
+// Query: *[_type == "region" && defined(slug.current)] {    _id,    title,    "slug": slug.current  }
+export type REGIONS_QUERY_RESULT = Array<{
+  _id: string;
+  title: string;
+  slug: string;
+}>;
+
+// Source: src/queries/region.ts
+// Variable: REGION_BY_SLUG_QUERY
+// Query: *[_type == "region" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current  }
+export type REGION_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  title: string;
+  slug: string;
+} | null;
+
+// Source: src/queries/region.ts
+// Variable: ALL_REGION_SLUGS_QUERY
+// Query: *[_type == "region" && defined(slug.current)].slug.current
+export type ALL_REGION_SLUGS_QUERY_RESULT = Array<string>;
+
+// Source: src/queries/theme.ts
+// Variable: THEMES_QUERY
+// Query: *[_type == "theme" && defined(slug.current)] {    _id,    title,    "slug": slug.current  }
+export type THEMES_QUERY_RESULT = Array<{
+  _id: string;
+  title: string;
+  slug: string;
+}>;
+
+// Source: src/queries/theme.ts
+// Variable: THEME_BY_SLUG_QUERY
+// Query: *[_type == "theme" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current  }
+export type THEME_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  title: string;
+  slug: string;
+} | null;
+
+// Source: src/queries/theme.ts
+// Variable: ALL_THEME_SLUGS_QUERY
+// Query: *[_type == "theme" && defined(slug.current)].slug.current
+export type ALL_THEME_SLUGS_QUERY_RESULT = Array<string>;
+
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[_type == "author" && slug.current == $slug][0]{\n    name\n  }\n': AUTHOR_BY_SLUG_QUERY_RESULT;
-    '\n  *[_type == "author" && defined(slug.current)].slug.current\n': ALL_AUTHOR_SLUGS_QUERY_RESULT;
-    '\n  *[_type == "category" && slug.current == $slug][0]{\n    title\n  }\n': CATEGORY_BY_SLUG_QUERY_RESULT;
-    '\n  *[_type == "category" && defined(slug.current)].slug.current\n': ALL_CATEGORY_SLUGS_QUERY_RESULT;
+    '\n  {\n    "upcoming": *[\n      _type == "event" &&\n      defined(slug.current) &&\n      defined(eventDate) &&\n      eventDate >= $now\n    ] | order(eventDate asc) {\n      _id,\n      title,\n      "slug": slug.current,\n      eventDate,\n      excerpt,\n      image {\n        \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n      }\n    },\n    "past": *[\n      _type == "event" &&\n      defined(slug.current) &&\n      defined(eventDate) &&\n      eventDate < $now\n    ] | order(eventDate desc) {\n      _id,\n      title,\n      "slug": slug.current,\n      eventDate,\n      excerpt,\n      image {\n        \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n      }\n    }\n  }\n': EVENTS_SPLIT_QUERY_RESULT;
     '\n  *[_type == "page" && slug.current == $slug][0]{\n    title\n  }\n': PAGE_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "page" && defined(slug.current)].slug.current\n': ALL_PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "person" && defined(slug.current)] {\n    _id,\n    name,\n    "slug": slug.current,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n    },\n    role\n  }\n': PEOPLE_QUERY_RESULT;
     '\n  *[_type == "person" && slug.current == $slug][0]{\n    _id,\n    name,\n    "slug": slug.current,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n    },\n    role,\n    bio,\n    socialMediaLinks\n  }\n': PERSON_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "person" && defined(slug.current)].slug.current\n': ALL_PERSON_SLUGS_QUERY_RESULT;
-    '\n  *[_type == "post" && slug.current == $slug][0]{\n    title\n  }\n': POST_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "post" && defined(slug.current)] {\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    publishedDate,\n    excerpt,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n,\n    },\n    "authors": authors[]->{\n      _id,\n      name,\n      "slug": slug.current,\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n,\n      role,\n    },\n    "regions": regions[]->{\n      _id,\n      title,\n      "slug": slug.current\n    },\n    "themes": themes[]->{\n      _id,\n      title,\n      "slug": slug.current\n    }\n  }\n': POSTS_QUERY_RESULT;
+    '\n  *[_type == "post" && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    publishedDate,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n,\n    },\n    content,\n    "authors": authors[]->{\n      _id,\n      name,\n      "slug": slug.current,\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n,\n      role,\n    },\n    "regions": regions[]->{\n      _id,\n      title,\n      "slug": slug.current\n    },\n    "themes": themes[]->{\n      _id,\n      title,\n      "slug": slug.current\n    }\n  }\n': POST_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "post" && defined(slug.current)].slug.current\n': ALL_POST_SLUGS_QUERY_RESULT;
-    '\n  *[_type == "publication" && slug.current == $slug][0]{\n    title\n  }\n': PUBLICATION_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "post" && defined(slug.current)] {\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    excerpt,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n,\n    }\n  }\n': PROJECTS_QUERY_RESULT;
+    '\n  *[_type == "project" && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n,\n    },\n    content\n  }\n': PROJECT_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "project" && defined(slug.current)].slug.current\n': ALL_PROJECT_SLUGS_QUERY_RESULT;
+    '\n  *[_type == "publication" && defined(slug.current)] {\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    publishedDate,\n    excerpt,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n,\n    },\n    "authors": authors[]->{\n      _id,\n      name,\n      "slug": slug.current,\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n,\n      role,\n    },\n    "regions": regions[]->{\n      _id,\n      title,\n      "slug": slug.current\n    },\n    "themes": themes[]->{\n      _id,\n      title,\n      "slug": slug.current\n    }\n  }\n': PUBLICATIONS_QUERY_RESULT;
+    '\n  *[_type == "publication" && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    publishedDate,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n,\n    },\n    content,\n    "authors": authors[]->{\n      _id,\n      name,\n      "slug": slug.current,\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n,\n      role,\n    },\n    "regions": regions[]->{\n      _id,\n      title,\n      "slug": slug.current\n    },\n    "themes": themes[]->{\n      _id,\n      title,\n      "slug": slug.current\n    }\n  }\n': PUBLICATION_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "publication" && defined(slug.current)].slug.current\n': ALL_PUBLICATION_SLUGS_QUERY_RESULT;
+    '\n  *[_type == "region" && defined(slug.current)] {\n    _id,\n    title,\n    "slug": slug.current\n  }\n': REGIONS_QUERY_RESULT;
+    '\n  *[_type == "region" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current\n  }\n': REGION_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "region" && defined(slug.current)].slug.current\n': ALL_REGION_SLUGS_QUERY_RESULT;
+    '\n  *[_type == "theme" && defined(slug.current)] {\n    _id,\n    title,\n    "slug": slug.current\n  }\n': THEMES_QUERY_RESULT;
+    '\n  *[_type == "theme" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current\n  }\n': THEME_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "theme" && defined(slug.current)].slug.current\n': ALL_THEME_SLUGS_QUERY_RESULT;
   }
 }
