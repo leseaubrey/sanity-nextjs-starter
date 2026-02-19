@@ -1,3 +1,3 @@
-import type { TEAM_MEMBERS_QUERY_RESULT } from "@workspace/sanity/types";
+import type { PEOPLE_QUERY_RESULT } from "@workspace/sanity/types";
 
-export type TeamMember = NonNullable<TEAM_MEMBERS_QUERY_RESULT>[number];
+export type Person = NonNullable<PEOPLE_QUERY_RESULT>[number];
