@@ -27,14 +27,6 @@ export const projectType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "publishedDate",
-      title: "Published Date",
-      group: FIELD_GROUP.CONTENT,
-      type: "date",
-      validation: (Rule) => Rule.required(),
-      initialValue: new Date().toISOString().slice(0, 10),
-    }),
-    defineField({
       name: "excerpt",
       title: "Excerpt",
       type: "text",
@@ -56,27 +48,6 @@ export const projectType = defineType({
       type: "array",
       group: FIELD_GROUP.CONTENT,
       of: [{ type: "block" }],
-    }),
-    defineField({
-      name: "authors",
-      title: "Authors",
-      type: "array",
-      group: FIELD_GROUP.CONTENT,
-      of: [{ type: "reference", to: [{ type: "person" }] }],
-    }),
-    defineField({
-      name: "regions",
-      title: "Regions",
-      type: "array",
-      group: FIELD_GROUP.CONTENT,
-      of: [{ type: "reference", to: [{ type: "region" }] }],
-    }),
-    defineField({
-      name: "themes",
-      title: "Themes",
-      type: "array",
-      group: FIELD_GROUP.CONTENT,
-      of: [{ type: "reference", to: [{ type: "theme" }] }],
     }),
   ],
   preview: {

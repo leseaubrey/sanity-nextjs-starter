@@ -1,18 +1,25 @@
-import { fetchPageBySlug } from "@workspace/sanity/queries";
+import { fetchPageBySlug, fetchPublications } from "@workspace/sanity/queries";
+
+import { ContentGrid } from "~/components/shared/content-grid";
 
 export default async function PublicationsPage() {
-  // TODO: Magic string
-  const result = await fetchPageBySlug("publications");
+  // TODO: Magic string, single query?
+  const [{ data: pageData }, { data: publications }] = await Promise.all([
+    fetchPageBySlug("publications"),
+    fetchPublications(),
+  ]);
 
-  if (!result.data) {
+  if (!pageData) {
     return <div>Page not found</div>;
   }
 
+  const { title } = pageData;
+
   return (
-    <div className="flex min-h-svh items-center justify-center">
-      <div className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl font-bold">{result.data.title}</h1>
-      </div>
+    <div className="container mx-auto py-16">
+      <h1 className="text-2xl font-bold">{title}</h1>
+
+      <ContentGrid items={publications} />
     </div>
   );
 }

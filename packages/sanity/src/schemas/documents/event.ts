@@ -32,6 +32,7 @@ export const eventType = defineType({
       type: "date",
       group: FIELD_GROUP.CONTENT,
       initialValue: new Date().toISOString().slice(0, 10),
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "excerpt",

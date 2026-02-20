@@ -2,19 +2,19 @@ import Link from "next/link";
 
 import { SanityImage } from "@workspace/sanity/components";
 
-import type { TeamMember } from "~/types";
+import type { Person } from "~/types";
 
-interface TeamMemberCardProps {
-  teamMember: TeamMember;
+interface PersonCardProps {
+  person: Person;
 }
 
-export const TeamMemberCard = (props: TeamMemberCardProps) => {
+export const PersonCard = (props: PersonCardProps) => {
   const {
-    teamMember: { name, slug, image, role },
+    person: { name, slug, image, role },
   } = props;
 
   // TODO: URL resolver
-  const resolvedHref = `/team/${slug}`;
+  const resolvedHref = `/people/${slug}`;
 
   return (
     <Link href={resolvedHref}>
