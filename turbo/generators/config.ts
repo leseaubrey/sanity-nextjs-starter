@@ -10,8 +10,7 @@ interface PackageJson {
 
 export default function generator(plop: PlopTypes.NodePlopAPI): void {
   plop.setGenerator("init", {
-    description:
-      "Generate a new package for the Sanity Next.js Starter Monorepo",
+    description: "Generate a new package for the Monorepo",
     prompts: [
       {
         type: "input",
