@@ -268,7 +268,7 @@ export type Event = {
   _rev: string;
   title: string;
   slug: Slug;
-  eventDate?: string;
+  eventDate: string;
   excerpt?: string;
   image?: {
     asset?: SanityImageAssetReference;
@@ -429,14 +429,15 @@ export type AllSanitySchemaTypes =
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: src/queries/event.ts
-// Variable: EVENTS_SPLIT_QUERY
-// Query: {    "upcoming": *[      _type == "event" &&      defined(slug.current) &&      defined(eventDate) &&      eventDate >= $now    ] | order(eventDate asc) {      _id,      title,      "slug": slug.current,      eventDate,      excerpt,      image {          "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  }      }    },    "past": *[      _type == "event" &&      defined(slug.current) &&      defined(eventDate) &&      eventDate < $now    ] | order(eventDate desc) {      _id,      title,      "slug": slug.current,      eventDate,      excerpt,      image {          "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  }      }    }  }
-export type EVENTS_SPLIT_QUERY_RESULT = {
+// Variable: EVENTS_QUERY
+// Query: {    "upcoming": *[      _type == "event" &&      defined(slug.current) &&      defined(eventDate) &&      eventDate >= $now    ] | order(eventDate asc) {      _id,      _type,      title,      "slug": slug.current,      eventDate,      excerpt,      image {          "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  }      }    },    "past": *[      _type == "event" &&      defined(slug.current) &&      defined(eventDate) &&      eventDate < $now    ] | order(eventDate desc) {      _id,      _type,      title,      "slug": slug.current,      eventDate,      excerpt,      image {          "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  }      }    }  }
+export type EVENTS_QUERY_RESULT = {
   upcoming: Array<{
     _id: string;
+    _type: "event";
     title: string;
     slug: string;
-    eventDate: string | null;
+    eventDate: string;
     excerpt: string | null;
     image: {
       id: string | null;
@@ -455,9 +456,10 @@ export type EVENTS_SPLIT_QUERY_RESULT = {
   }>;
   past: Array<{
     _id: string;
+    _type: "event";
     title: string;
     slug: string;
-    eventDate: string | null;
+    eventDate: string;
     excerpt: string | null;
     image: {
       id: string | null;
@@ -475,6 +477,54 @@ export type EVENTS_SPLIT_QUERY_RESULT = {
     } | null;
   }>;
 };
+
+// Source: src/queries/event.ts
+// Variable: EVENT_BY_SLUG_QUERY
+// Query: *[_type == "event" && slug.current == $slug][0]{    _id,    _type,    title,    "slug": slug.current,    eventDate,    image {        "id": asset._ref,  "preview": asset->metadata.lqip,  hotspot { x, y },  crop {    bottom,    left,    right,    top,  },    },    content  }
+export type EVENT_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  _type: "event";
+  title: string;
+  slug: string;
+  eventDate: string;
+  image: {
+    id: string | null;
+    preview: string | null;
+    hotspot: {
+      x: number;
+      y: number;
+    } | null;
+    crop: {
+      bottom: number;
+      left: number;
+      right: number;
+      top: number;
+    } | null;
+  } | null;
+  content: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+} | null;
+
+// Source: src/queries/event.ts
+// Variable: ALL_EVENT_SLUGS_QUERY
+// Query: *[_type == "event" && defined(slug.current)].slug.current
+export type ALL_EVENT_SLUGS_QUERY_RESULT = Array<string>;
 
 // Source: src/queries/page.ts
 // Variable: PAGE_BY_SLUG_QUERY
@@ -895,7 +945,9 @@ export type ALL_THEME_SLUGS_QUERY_RESULT = Array<string>;
 
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  {\n    "upcoming": *[\n      _type == "event" &&\n      defined(slug.current) &&\n      defined(eventDate) &&\n      eventDate >= $now\n    ] | order(eventDate asc) {\n      _id,\n      title,\n      "slug": slug.current,\n      eventDate,\n      excerpt,\n      image {\n        \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n      }\n    },\n    "past": *[\n      _type == "event" &&\n      defined(slug.current) &&\n      defined(eventDate) &&\n      eventDate < $now\n    ] | order(eventDate desc) {\n      _id,\n      title,\n      "slug": slug.current,\n      eventDate,\n      excerpt,\n      image {\n        \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n      }\n    }\n  }\n': EVENTS_SPLIT_QUERY_RESULT;
+    '\n  {\n    "upcoming": *[\n      _type == "event" &&\n      defined(slug.current) &&\n      defined(eventDate) &&\n      eventDate >= $now\n    ] | order(eventDate asc) {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      eventDate,\n      excerpt,\n      image {\n        \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n      }\n    },\n    "past": *[\n      _type == "event" &&\n      defined(slug.current) &&\n      defined(eventDate) &&\n      eventDate < $now\n    ] | order(eventDate desc) {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      eventDate,\n      excerpt,\n      image {\n        \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n      }\n    }\n  }\n': EVENTS_QUERY_RESULT;
+    '\n  *[_type == "event" && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    eventDate,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n,\n    },\n    content\n  }\n': EVENT_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "event" && defined(slug.current)].slug.current\n': ALL_EVENT_SLUGS_QUERY_RESULT;
     '\n  *[_type == "page" && slug.current == $slug][0]{\n    title\n  }\n': PAGE_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "page" && defined(slug.current)].slug.current\n': ALL_PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "person" && defined(slug.current)] {\n    _id,\n    name,\n    "slug": slug.current,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n    },\n    role\n  }\n': PEOPLE_QUERY_RESULT;

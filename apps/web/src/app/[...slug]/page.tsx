@@ -1,5 +1,4 @@
 import { fetchAllPageSlugs, fetchPageBySlug } from "@workspace/sanity/queries";
-import { Button } from "@workspace/ui/components/button";
 
 export const generateStaticParams = async () => {
   const result = await fetchAllPageSlugs();
@@ -17,22 +16,17 @@ export default async function DynamicPage({
   const { slug } = await params;
   const slugString = slug.join("/");
 
-  const result = await fetchPageBySlug(slugString);
+  const { data: pageData } = await fetchPageBySlug(slugString);
 
-  if (!result.data) {
+  if (!pageData) {
     return <div>Page not found</div>;
   }
 
-  return (
-    <div className="flex min-h-svh items-center justify-center">
-      <div className="flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl font-bold">{result.data.title}</h1>
+  const { title } = pageData;
 
-        <div className="flex gap-2">
-          <Button>Button</Button>
-          <Button variant="outline">Outline</Button>
-        </div>
-      </div>
+  return (
+    <div className="container mx-auto py-16">
+      <h1 className="text-2xl font-bold">{title}</h1>
     </div>
   );
 }
