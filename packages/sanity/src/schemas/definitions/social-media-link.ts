@@ -9,7 +9,7 @@ const SOCIAL_PLATFORMS = [
   { title: "GitHub", value: "github" },
 ];
 
-export const socialMediaLink = defineType({
+export const socialMediaLinkType = defineType({
   name: "socialMediaLink",
   title: "Social Media Link",
   type: "object",

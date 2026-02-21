@@ -1,3 +1,3 @@
-import { socialMediaLink } from "./social-media-link";
+import { socialMediaLinkType } from "./social-media-link";
 
-export const definitions = [socialMediaLink];
+export const definitions = [socialMediaLinkType];
