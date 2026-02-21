@@ -9,3 +9,18 @@ export const imageFragment = /* groq */ `
     top,
   }
 `;
+
+export const linkFragment = /* groq */ `
+  label,
+  ...select(
+    link.type == "internal" => {
+      "type": "internal",
+      "slug": link.reference->slug.current
+    },
+    link.type == "external" => {
+      "type": "external",
+      "url": link.url,
+      "openInNewTab": link.openInNewTab
+    },
+  )
+`;
