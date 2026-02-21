@@ -250,14 +250,46 @@ export type Person = {
   >;
 };
 
-export type Page = {
+export type Navbar = {
   _id: string;
-  _type: "page";
+  _type: "navbar";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title: string;
-  slug: Slug;
+  items?: Array<
+    | {
+        label: string;
+        link?: Link;
+        _type: "navbarLink";
+        _key: string;
+      }
+    | {
+        title?: string;
+        items?: Array<{
+          label: string;
+          link?: Link;
+          _type: "navbarLink";
+          _key: string;
+        }>;
+        _type: "navbarGroup";
+        _key: string;
+      }
+  >;
+};
+
+export type PageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "page";
+};
+
+export type Link = {
+  _type: "link";
+  type: "internal" | "external";
+  reference?: PageReference;
+  url?: string;
+  openInNewTab?: boolean;
 };
 
 export type Event = {
@@ -301,6 +333,16 @@ export type SocialMediaLink = {
   _type: "socialMediaLink";
   platform: "linkedin" | "x" | "facebook" | "instagram" | "youtube" | "github";
   url: string;
+};
+
+export type Page = {
+  _id: string;
+  _type: "page";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -414,9 +456,12 @@ export type AllSanitySchemaTypes =
   | Publication
   | Post
   | Person
-  | Page
+  | Navbar
+  | PageReference
+  | Link
   | Event
   | SocialMediaLink
+  | Page
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -525,6 +570,49 @@ export type EVENT_BY_SLUG_QUERY_RESULT = {
 // Variable: ALL_EVENT_SLUGS_QUERY
 // Query: *[_type == "event" && defined(slug.current)].slug.current
 export type ALL_EVENT_SLUGS_QUERY_RESULT = Array<string>;
+
+// Source: src/queries/global.ts
+// Variable: GLOBAL_DATA_QUERY
+// Query: {  "navbar": *[_type == "navbar"][0] {    items[] {      _type,      _key,      _type == 'navbarLink' => {          label,  ...select(    link.type == "internal" => {      "type": "internal",      "slug": link.reference->slug.current    },    link.type == "external" => {      "type": "external",      "url": link.url,      "openInNewTab": link.openInNewTab    },  )      },      _type == 'navbarGroup' => {        title,        items[] {            label,  ...select(    link.type == "internal" => {      "type": "internal",      "slug": link.reference->slug.current    },    link.type == "external" => {      "type": "external",      "url": link.url,      "openInNewTab": link.openInNewTab    },  )        }      },    }  }}
+export type GLOBAL_DATA_QUERY_RESULT = {
+  navbar: {
+    items: Array<
+      | {
+          _type: "navbarGroup";
+          _key: string;
+          title: string | null;
+          items: Array<
+            | {
+                label: string;
+                type: "external";
+                url: string | null;
+                openInNewTab: boolean | null;
+              }
+            | {
+                label: string;
+                type: "internal";
+                slug: string | null;
+              }
+          > | null;
+        }
+      | {
+          _type: "navbarLink";
+          _key: string;
+          label: string;
+          type: "external";
+          url: string | null;
+          openInNewTab: boolean | null;
+        }
+      | {
+          _type: "navbarLink";
+          _key: string;
+          label: string;
+          type: "internal";
+          slug: string | null;
+        }
+    > | null;
+  } | null;
+};
 
 // Source: src/queries/page.ts
 // Variable: PAGE_BY_SLUG_QUERY
@@ -948,6 +1036,7 @@ declare module "@sanity/client" {
     '\n  {\n    "upcoming": *[\n      _type == "event" &&\n      defined(slug.current) &&\n      defined(eventDate) &&\n      eventDate >= $now\n    ] | order(eventDate asc) {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      eventDate,\n      excerpt,\n      image {\n        \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n      }\n    },\n    "past": *[\n      _type == "event" &&\n      defined(slug.current) &&\n      defined(eventDate) &&\n      eventDate < $now\n    ] | order(eventDate desc) {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      eventDate,\n      excerpt,\n      image {\n        \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n      }\n    }\n  }\n': EVENTS_QUERY_RESULT;
     '\n  *[_type == "event" && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    eventDate,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n,\n    },\n    content\n  }\n': EVENT_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "event" && defined(slug.current)].slug.current\n': ALL_EVENT_SLUGS_QUERY_RESULT;
+    '\n{\n  "navbar": *[_type == "navbar"][0] {\n    items[] {\n      _type,\n      _key,\n      _type == \'navbarLink\' => {\n        \n  label,\n  ...select(\n    link.type == "internal" => {\n      "type": "internal",\n      "slug": link.reference->slug.current\n    },\n    link.type == "external" => {\n      "type": "external",\n      "url": link.url,\n      "openInNewTab": link.openInNewTab\n    },\n  )\n\n      },\n      _type == \'navbarGroup\' => {\n        title,\n        items[] {\n          \n  label,\n  ...select(\n    link.type == "internal" => {\n      "type": "internal",\n      "slug": link.reference->slug.current\n    },\n    link.type == "external" => {\n      "type": "external",\n      "url": link.url,\n      "openInNewTab": link.openInNewTab\n    },\n  )\n\n        }\n      },\n    }\n  }\n}\n': GLOBAL_DATA_QUERY_RESULT;
     '\n  *[_type == "page" && slug.current == $slug][0]{\n    title\n  }\n': PAGE_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "page" && defined(slug.current)].slug.current\n': ALL_PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "person" && defined(slug.current)] {\n    _id,\n    name,\n    "slug": slug.current,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n    },\n    role\n  }\n': PEOPLE_QUERY_RESULT;
