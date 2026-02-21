@@ -1,4 +1,5 @@
 import { eventType } from "./event";
+import { navbarType } from "./navbar";
 import { pageType } from "./page";
 import { personType } from "./person";
 import { postType } from "./post";
@@ -9,6 +10,7 @@ import { themeType } from "./theme";
 
 export const documents = [
   eventType,
+  navbarType,
   pageType,
   personType,
   postType,
