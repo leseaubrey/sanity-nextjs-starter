@@ -15,7 +15,8 @@ export const linkFragment = /* groq */ `
   ...select(
     link.type == "internal" => {
       "type": "internal",
-      "slug": link.reference->slug.current
+      "slug": link.reference->slug.current,
+      "documentType": link.reference->_type,
     },
     link.type == "external" => {
       "type": "external",

@@ -5,26 +5,30 @@ import { linkFragment } from "./fragments";
 
 const GLOBAL_DATA_QUERY = defineQuery(`
 {
-  "navbar": *[_type == "navbar"][0] {
-    items[] {
-      _type,
-      _key,
-      _type == 'navbarLink' => {
-        ${linkFragment}
-      },
-      _type == 'navbarGroup' => {
-        title,
-        items[] {
+  "header": *[_type == "header"][0] {
+    navigationMenu {
+      items[] {
+        _type,
+        _key,
+        _type == 'navigationMenuLink' => {
           ${linkFragment}
-        }
-      },
+        },
+        _type == 'navigationMenuGroup' => {
+          title,
+          items[] {
+            ${linkFragment}
+          }
+        },
+      }
     }
   }
 }
 `);
 
-export const getGlobalData = () => {
-  return sanityFetch({
+export const getGlobalData = async () => {
+  const result = await sanityFetch({
     query: GLOBAL_DATA_QUERY,
   });
+
+  return result.data;
 };

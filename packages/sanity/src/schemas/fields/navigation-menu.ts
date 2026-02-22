@@ -1,8 +1,8 @@
-import { defineField, defineType } from "sanity";
+import { defineField } from "sanity";
 
-const navbarLinkField = defineField({
-  name: "navbarLink",
-  title: "Navbar Link",
+const navigationMenuLink = defineField({
+  name: "navigationMenuLink",
+  title: "Navigation Menu Link",
   type: "object",
   fields: [
     defineField({
@@ -19,9 +19,9 @@ const navbarLinkField = defineField({
   ],
 });
 
-const navbarGroupField = defineField({
-  name: "navbarGroup",
-  title: "Navbar Group",
+const navigationMenuGroup = defineField({
+  name: "navigationMenuGroup",
+  title: "Navigation Menu Group",
   type: "object",
   fields: [
     defineField({
@@ -33,26 +33,21 @@ const navbarGroupField = defineField({
       name: "items",
       title: "Items",
       type: "array",
-      of: [navbarLinkField],
+      of: [navigationMenuLink],
     }),
   ],
 });
 
-export const navbarType = defineType({
-  name: "navbar",
-  title: "Navbar",
-  type: "document",
+export const navigationMenu = defineField({
+  name: "navigationMenu",
+  title: "Navigation Menu",
+  type: "object",
   fields: [
     defineField({
       name: "items",
       title: "Items",
       type: "array",
-      of: [navbarLinkField, navbarGroupField],
+      of: [navigationMenuLink, navigationMenuGroup],
     }),
   ],
-  preview: {
-    prepare: () => ({
-      title: "Navbar",
-    }),
-  },
 });
