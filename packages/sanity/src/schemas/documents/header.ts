@@ -1,12 +1,12 @@
 import { defineType } from "sanity";
 
-import { navigationMenu } from "../fields";
+import { createNavigationField } from "../fields";
 
 export const header = defineType({
   name: "header",
   title: "Header",
   type: "document",
-  fields: [navigationMenu],
+  fields: [createNavigationField("primaryNavigation", "Primary Navigation")],
   preview: {
     prepare: () => ({
       title: "Header",

@@ -1512,7 +1512,7 @@
           "type": "string"
         }
       },
-      "navigationMenu": {
+      "primaryNavigation": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -1546,7 +1546,7 @@
                           "type": "objectAttribute",
                           "value": {
                             "type": "string",
-                            "value": "navigationMenuLink"
+                            "value": "navigationLink"
                           }
                         }
                       },
@@ -1598,7 +1598,7 @@
                                   "type": "objectAttribute",
                                   "value": {
                                     "type": "string",
-                                    "value": "navigationMenuLink"
+                                    "value": "navigationLink"
                                   }
                                 }
                               },
@@ -1621,7 +1621,7 @@
                           "type": "objectAttribute",
                           "value": {
                             "type": "string",
-                            "value": "navigationMenuGroup"
+                            "value": "navigationGroup"
                           }
                         }
                       },
@@ -2130,6 +2130,37 @@
           "name": "slug"
         },
         "optional": false
+      }
+    }
+  },
+  {
+    "name": "button",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "button"
+          }
+        },
+        "text": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "link": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "link"
+          },
+          "optional": true
+        }
       }
     }
   },

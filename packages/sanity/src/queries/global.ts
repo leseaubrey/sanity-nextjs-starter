@@ -6,14 +6,14 @@ import { linkFragment } from "./fragments";
 const GLOBAL_DATA_QUERY = defineQuery(`
 {
   "header": *[_type == "header"][0] {
-    navigationMenu {
+    primaryNavigation {
       items[] {
         _type,
         _key,
-        _type == 'navigationMenuLink' => {
+        _type == 'navigationLink' => {
           ${linkFragment}
         },
-        _type == 'navigationMenuGroup' => {
+        _type == 'navigationGroup' => {
           title,
           items[] {
             ${linkFragment}

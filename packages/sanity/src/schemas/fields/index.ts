@@ -1,2 +1,2 @@
-export { navigationMenu } from "./navigation-menu";
-export { socialMediaLinks } from "./social-media-links";
+export * from "./navigation";
+export * from "./social-media-links";
