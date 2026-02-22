@@ -16,6 +16,7 @@ const GLOBAL_DATA_QUERY = defineQuery(`
         _type == 'navigationGroup' => {
           title,
           items[] {
+            _key,
             ${linkFragment}
           }
         },

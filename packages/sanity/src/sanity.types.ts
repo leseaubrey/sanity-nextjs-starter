@@ -582,7 +582,7 @@ export type ALL_EVENT_SLUGS_QUERY_RESULT = Array<string>;
 
 // Source: src/queries/global.ts
 // Variable: GLOBAL_DATA_QUERY
-// Query: {  "header": *[_type == "header"][0] {    primaryNavigation {      items[] {        _type,        _key,        _type == 'navigationLink' => {            label,  ...select(    link.type == "internal" => {      "type": "internal",      "slug": link.reference->slug.current,      "documentType": link.reference->_type,    },    link.type == "external" => {      "type": "external",      "url": link.url,      "openInNewTab": link.openInNewTab    },  )        },        _type == 'navigationGroup' => {          title,          items[] {              label,  ...select(    link.type == "internal" => {      "type": "internal",      "slug": link.reference->slug.current,      "documentType": link.reference->_type,    },    link.type == "external" => {      "type": "external",      "url": link.url,      "openInNewTab": link.openInNewTab    },  )          }        },      }    }  }}
+// Query: {  "header": *[_type == "header"][0] {    primaryNavigation {      items[] {        _type,        _key,        _type == 'navigationLink' => {            label,  ...select(    link.type == "internal" => {      "type": "internal",      "slug": link.reference->slug.current,      "documentType": link.reference->_type,    },    link.type == "external" => {      "type": "external",      "url": link.url,      "openInNewTab": link.openInNewTab    },  )        },        _type == 'navigationGroup' => {          title,          items[] {            _key,              label,  ...select(    link.type == "internal" => {      "type": "internal",      "slug": link.reference->slug.current,      "documentType": link.reference->_type,    },    link.type == "external" => {      "type": "external",      "url": link.url,      "openInNewTab": link.openInNewTab    },  )          }        },      }    }  }}
 export type GLOBAL_DATA_QUERY_RESULT = {
   header: {
     primaryNavigation: {
@@ -593,12 +593,14 @@ export type GLOBAL_DATA_QUERY_RESULT = {
             title: string | null;
             items: Array<
               | {
+                  _key: string;
                   label: string;
                   type: "internal";
                   slug: string | null;
                   documentType: "page" | null;
                 }
               | {
+                  _key: string;
                   label: string;
                   type: "external";
                   url: string | null;
@@ -1049,7 +1051,7 @@ declare module "@sanity/client" {
     '\n  {\n    "upcoming": *[\n      _type == "event" &&\n      defined(slug.current) &&\n      defined(eventDate) &&\n      eventDate >= $now\n    ] | order(eventDate asc) {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      eventDate,\n      excerpt,\n      image {\n        \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n      }\n    },\n    "past": *[\n      _type == "event" &&\n      defined(slug.current) &&\n      defined(eventDate) &&\n      eventDate < $now\n    ] | order(eventDate desc) {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      eventDate,\n      excerpt,\n      image {\n        \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n      }\n    }\n  }\n': EVENTS_QUERY_RESULT;
     '\n  *[_type == "event" && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    eventDate,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n,\n    },\n    content\n  }\n': EVENT_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "event" && defined(slug.current)].slug.current\n': ALL_EVENT_SLUGS_QUERY_RESULT;
-    '\n{\n  "header": *[_type == "header"][0] {\n    primaryNavigation {\n      items[] {\n        _type,\n        _key,\n        _type == \'navigationLink\' => {\n          \n  label,\n  ...select(\n    link.type == "internal" => {\n      "type": "internal",\n      "slug": link.reference->slug.current,\n      "documentType": link.reference->_type,\n    },\n    link.type == "external" => {\n      "type": "external",\n      "url": link.url,\n      "openInNewTab": link.openInNewTab\n    },\n  )\n\n        },\n        _type == \'navigationGroup\' => {\n          title,\n          items[] {\n            \n  label,\n  ...select(\n    link.type == "internal" => {\n      "type": "internal",\n      "slug": link.reference->slug.current,\n      "documentType": link.reference->_type,\n    },\n    link.type == "external" => {\n      "type": "external",\n      "url": link.url,\n      "openInNewTab": link.openInNewTab\n    },\n  )\n\n          }\n        },\n      }\n    }\n  }\n}\n': GLOBAL_DATA_QUERY_RESULT;
+    '\n{\n  "header": *[_type == "header"][0] {\n    primaryNavigation {\n      items[] {\n        _type,\n        _key,\n        _type == \'navigationLink\' => {\n          \n  label,\n  ...select(\n    link.type == "internal" => {\n      "type": "internal",\n      "slug": link.reference->slug.current,\n      "documentType": link.reference->_type,\n    },\n    link.type == "external" => {\n      "type": "external",\n      "url": link.url,\n      "openInNewTab": link.openInNewTab\n    },\n  )\n\n        },\n        _type == \'navigationGroup\' => {\n          title,\n          items[] {\n            _key,\n            \n  label,\n  ...select(\n    link.type == "internal" => {\n      "type": "internal",\n      "slug": link.reference->slug.current,\n      "documentType": link.reference->_type,\n    },\n    link.type == "external" => {\n      "type": "external",\n      "url": link.url,\n      "openInNewTab": link.openInNewTab\n    },\n  )\n\n          }\n        },\n      }\n    }\n  }\n}\n': GLOBAL_DATA_QUERY_RESULT;
     '\n  *[_type == "page" && slug.current == $slug][0]{\n    title\n  }\n': PAGE_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "page" && defined(slug.current)].slug.current\n': ALL_PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "person" && defined(slug.current)] {\n    _id,\n    name,\n    "slug": slug.current,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n    },\n    role\n  }\n': PEOPLE_QUERY_RESULT;
