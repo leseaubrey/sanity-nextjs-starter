@@ -1,28 +1,39 @@
 import { defineQuery } from "next-sanity";
 
 import { sanityFetch } from "../live";
-import { linkFragment } from "./fragments";
+import { buttonFragment, linkFragment } from "./fragments";
 
 const GLOBAL_DATA_QUERY = defineQuery(`
 {
   "header": *[_type == "header"][0] {
     primaryNavigation {
       items[] {
-        _type,
-        _key,
         _type == 'navigationLink' => {
-          ${linkFragment}
-        },
-        _type == 'navigationGroup' => {
-          title,
-          items[] {
-            _key,
+          _key,
+          _type,
+          link { 
             ${linkFragment}
           }
         },
-      }
+        _type == 'navigationGroup' => {
+          _key,
+          _type,
+          title,
+          items[] {
+            _key,
+            _type,
+            link { 
+              ${linkFragment}
+            }
+          }
+        },
+      },
+    },
+    buttons[] {
+      _key,
+      ${buttonFragment}
     }
-  }
+  },
 }
 `);
 

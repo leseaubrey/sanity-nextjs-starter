@@ -3,36 +3,38 @@ import Link from "next/link";
 import type { SanityLinkType } from "~/types";
 import { resolveSanityLink } from "~/utils";
 
-interface SanityLinkProps {
-  link: SanityLinkType;
-}
+type SanityLinkProps = SanityLinkType & React.ComponentPropsWithoutRef<"a">;
 
+// TODO: Null vs?
 export const SanityLink = (props: SanityLinkProps) => {
-  const { link } = props;
+  if (props.type === "external") {
+    const { url, openInNewTab, text, ...rest } = props;
 
-  if (link.type === "external") {
-    if (!link.url) {
-      return null;
-    }
+    if (!url) return null;
 
     return (
       <a
-        href={link.url}
-        {...(link.openInNewTab && {
+        href={url}
+        {...(openInNewTab && {
           target: "_blank",
           rel: "noopener noreferrer",
         })}
+        {...rest}
       >
-        {link.label}
+        {text}
       </a>
     );
   }
 
-  const href = resolveSanityLink(link.documentType, link.slug);
+  const { documentType, slug, text, ...rest } = props;
 
-  if (!href) {
-    return null;
-  }
+  const href = resolveSanityLink(documentType, slug);
 
-  return <Link href={href}>{link.label}</Link>;
+  if (!href) return null;
+
+  return (
+    <Link href={href} {...rest}>
+      {text}
+    </Link>
+  );
 };

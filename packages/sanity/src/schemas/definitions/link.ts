@@ -1,6 +1,6 @@
 import { defineField, defineType } from "sanity";
 
-function getParentType(parent: unknown) {
+function getLinkType(parent: unknown) {
   if (typeof parent === "object" && parent !== null && "type" in parent) {
     const value = (parent as { type?: unknown }).type;
 
@@ -23,8 +23,8 @@ export const link = defineType({
       type: "string",
       options: {
         list: [
-          { title: "Internal", value: "internal" },
-          { title: "External", value: "external" },
+          { value: "internal", title: "Internal" },
+          { value: "external", title: "External" },
         ],
         layout: "radio",
       },
@@ -45,10 +45,10 @@ export const link = defineType({
       options: {
         disableNew: true,
       },
-      hidden: ({ parent }) => getParentType(parent) !== "internal",
+      hidden: ({ parent }) => getLinkType(parent) !== "internal",
       validation: (Rule) => {
         return Rule.custom((value, { parent }) => {
-          const type = getParentType(parent);
+          const type = getLinkType(parent);
 
           if (type === "internal" && !value) {
             return "Reference is required for internal links";
@@ -62,10 +62,10 @@ export const link = defineType({
       name: "url",
       type: "url",
       title: "URL",
-      hidden: ({ parent }) => getParentType(parent) !== "external",
+      hidden: ({ parent }) => getLinkType(parent) !== "external",
       validation: (Rule) => {
         return Rule.custom((value, { parent }) => {
-          const type = getParentType(parent);
+          const type = getLinkType(parent);
 
           if (type === "external" && !value) {
             return "URL is required for external links";
@@ -80,7 +80,15 @@ export const link = defineType({
       title: "Open in new tab",
       type: "boolean",
       initialValue: () => false,
-      hidden: ({ parent }) => getParentType(parent) !== "external",
+      hidden: ({ parent }) => getLinkType(parent) !== "external",
     }),
   ],
+  preview: {
+    select: {
+      text: "text",
+    },
+    prepare: ({ text }) => ({
+      title: `${text ?? "Untitled"}`,
+    }),
+  },
 });

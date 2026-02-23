@@ -243,12 +243,15 @@ export type Person = {
   };
   role?: string;
   bio?: string;
-  socialMediaLinks?: Array<
-    {
-      _key: string;
-    } & SocialMediaLink
-  >;
+  socialMediaLinks?: SocialMediaLinks;
 };
+
+export type SocialMediaLinks = Array<{
+  platform: "linkedin" | "x" | "facebook" | "instagram" | "youtube" | "github";
+  url: string;
+  _type: "socialMediaLink";
+  _key: string;
+}>;
 
 export type Header = {
   _id: string;
@@ -259,16 +262,14 @@ export type Header = {
   primaryNavigation?: {
     items?: Array<
       | {
-          label: string;
-          link?: Link;
+          link: Link;
           _type: "navigationLink";
           _key: string;
         }
       | {
           title?: string;
           items?: Array<{
-            label: string;
-            link?: Link;
+            link: Link;
             _type: "navigationLink";
             _key: string;
           }>;
@@ -277,7 +278,14 @@ export type Header = {
         }
     >;
   };
+  buttons?: Buttons;
 };
+
+export type Buttons = Array<
+  {
+    _key: string;
+  } & Button
+>;
 
 export type PageReference = {
   _ref: string;
@@ -289,6 +297,7 @@ export type PageReference = {
 export type Link = {
   _type: "link";
   type: "internal" | "external";
+  text: string;
   reference?: PageReference;
   url?: string;
   openInNewTab?: boolean;
@@ -331,12 +340,6 @@ export type Event = {
   }>;
 };
 
-export type SocialMediaLink = {
-  _type: "socialMediaLink";
-  platform: "linkedin" | "x" | "facebook" | "instagram" | "youtube" | "github";
-  url: string;
-};
-
 export type Page = {
   _id: string;
   _type: "page";
@@ -349,8 +352,8 @@ export type Page = {
 
 export type Button = {
   _type: "button";
-  text?: string;
-  link?: Link;
+  link: Link;
+  variant: "default" | "outline" | "secondary";
 };
 
 export type SanityImagePaletteSwatch = {
@@ -464,11 +467,12 @@ export type AllSanitySchemaTypes =
   | Publication
   | Post
   | Person
+  | SocialMediaLinks
   | Header
+  | Buttons
   | PageReference
   | Link
   | Event
-  | SocialMediaLink
   | Page
   | Button
   | SanityImagePaletteSwatch
@@ -582,50 +586,76 @@ export type ALL_EVENT_SLUGS_QUERY_RESULT = Array<string>;
 
 // Source: src/queries/global.ts
 // Variable: GLOBAL_DATA_QUERY
-// Query: {  "header": *[_type == "header"][0] {    primaryNavigation {      items[] {        _type,        _key,        _type == 'navigationLink' => {            label,  ...select(    link.type == "internal" => {      "type": "internal",      "slug": link.reference->slug.current,      "documentType": link.reference->_type,    },    link.type == "external" => {      "type": "external",      "url": link.url,      "openInNewTab": link.openInNewTab    },  )        },        _type == 'navigationGroup' => {          title,          items[] {            _key,              label,  ...select(    link.type == "internal" => {      "type": "internal",      "slug": link.reference->slug.current,      "documentType": link.reference->_type,    },    link.type == "external" => {      "type": "external",      "url": link.url,      "openInNewTab": link.openInNewTab    },  )          }        },      }    }  }}
+// Query: {  "header": *[_type == "header"][0] {    primaryNavigation {      items[] {        _type == 'navigationLink' => {          _key,          _type,          link {               _type,  text,  ...select(    type == "internal" => {      "type": "internal",      "slug": reference->slug.current,      "documentType": reference->_type,    },    type == "external"  => {      "type": "external",      url,      openInNewTab    },  )          }        },        _type == 'navigationGroup' => {          _key,          _type,          title,          items[] {            _key,            _type,            link {                 _type,  text,  ...select(    type == "internal" => {      "type": "internal",      "slug": reference->slug.current,      "documentType": reference->_type,    },    type == "external"  => {      "type": "external",      url,      openInNewTab    },  )            }          }        },      },    },    buttons[] {      _key,        _type,  link {      _type,  text,  ...select(    type == "internal" => {      "type": "internal",      "slug": reference->slug.current,      "documentType": reference->_type,    },    type == "external"  => {      "type": "external",      url,      openInNewTab    },  )  },  variant    }  },}
 export type GLOBAL_DATA_QUERY_RESULT = {
   header: {
     primaryNavigation: {
       items: Array<
         | {
-            _type: "navigationGroup";
             _key: string;
+            _type: "navigationGroup";
             title: string | null;
-            items: Array<
+            items: Array<{
+              _key: string;
+              _type: "navigationLink";
+              link:
+                | {
+                    _type: "link";
+                    text: string;
+                    type: "internal";
+                    slug: string | null;
+                    documentType: "page" | null;
+                  }
+                | {
+                    _type: "link";
+                    text: string;
+                    type: "external";
+                    url: string | null;
+                    openInNewTab: boolean | null;
+                  };
+            }> | null;
+          }
+        | {
+            _key: string;
+            _type: "navigationLink";
+            link:
               | {
-                  _key: string;
-                  label: string;
+                  _type: "link";
+                  text: string;
                   type: "internal";
                   slug: string | null;
                   documentType: "page" | null;
                 }
               | {
-                  _key: string;
-                  label: string;
+                  _type: "link";
+                  text: string;
                   type: "external";
                   url: string | null;
                   openInNewTab: boolean | null;
-                }
-            > | null;
+                };
           }
+      > | null;
+    } | null;
+    buttons: Array<{
+      _key: string;
+      _type: "button";
+      link:
         | {
-            _type: "navigationLink";
-            _key: string;
-            label: string;
+            _type: "link";
+            text: string;
             type: "internal";
             slug: string | null;
             documentType: "page" | null;
           }
         | {
-            _type: "navigationLink";
-            _key: string;
-            label: string;
+            _type: "link";
+            text: string;
             type: "external";
             url: string | null;
             openInNewTab: boolean | null;
-          }
-      > | null;
-    } | null;
+          };
+      variant: "default" | "outline" | "secondary";
+    }> | null;
   } | null;
 };
 
@@ -688,11 +718,7 @@ export type PERSON_BY_SLUG_QUERY_RESULT = {
   } | null;
   role: string | null;
   bio: string | null;
-  socialMediaLinks: Array<
-    {
-      _key: string;
-    } & SocialMediaLink
-  > | null;
+  socialMediaLinks: SocialMediaLinks | null;
 } | null;
 
 // Source: src/queries/person.ts
@@ -1051,7 +1077,7 @@ declare module "@sanity/client" {
     '\n  {\n    "upcoming": *[\n      _type == "event" &&\n      defined(slug.current) &&\n      defined(eventDate) &&\n      eventDate >= $now\n    ] | order(eventDate asc) {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      eventDate,\n      excerpt,\n      image {\n        \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n      }\n    },\n    "past": *[\n      _type == "event" &&\n      defined(slug.current) &&\n      defined(eventDate) &&\n      eventDate < $now\n    ] | order(eventDate desc) {\n      _id,\n      _type,\n      title,\n      "slug": slug.current,\n      eventDate,\n      excerpt,\n      image {\n        \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n      }\n    }\n  }\n': EVENTS_QUERY_RESULT;
     '\n  *[_type == "event" && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    eventDate,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n,\n    },\n    content\n  }\n': EVENT_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "event" && defined(slug.current)].slug.current\n': ALL_EVENT_SLUGS_QUERY_RESULT;
-    '\n{\n  "header": *[_type == "header"][0] {\n    primaryNavigation {\n      items[] {\n        _type,\n        _key,\n        _type == \'navigationLink\' => {\n          \n  label,\n  ...select(\n    link.type == "internal" => {\n      "type": "internal",\n      "slug": link.reference->slug.current,\n      "documentType": link.reference->_type,\n    },\n    link.type == "external" => {\n      "type": "external",\n      "url": link.url,\n      "openInNewTab": link.openInNewTab\n    },\n  )\n\n        },\n        _type == \'navigationGroup\' => {\n          title,\n          items[] {\n            _key,\n            \n  label,\n  ...select(\n    link.type == "internal" => {\n      "type": "internal",\n      "slug": link.reference->slug.current,\n      "documentType": link.reference->_type,\n    },\n    link.type == "external" => {\n      "type": "external",\n      "url": link.url,\n      "openInNewTab": link.openInNewTab\n    },\n  )\n\n          }\n        },\n      }\n    }\n  }\n}\n': GLOBAL_DATA_QUERY_RESULT;
+    '\n{\n  "header": *[_type == "header"][0] {\n    primaryNavigation {\n      items[] {\n        _type == \'navigationLink\' => {\n          _key,\n          _type,\n          link { \n            \n  _type,\n  text,\n  ...select(\n    type == "internal" => {\n      "type": "internal",\n      "slug": reference->slug.current,\n      "documentType": reference->_type,\n    },\n    type == "external"  => {\n      "type": "external",\n      url,\n      openInNewTab\n    },\n  )\n\n          }\n        },\n        _type == \'navigationGroup\' => {\n          _key,\n          _type,\n          title,\n          items[] {\n            _key,\n            _type,\n            link { \n              \n  _type,\n  text,\n  ...select(\n    type == "internal" => {\n      "type": "internal",\n      "slug": reference->slug.current,\n      "documentType": reference->_type,\n    },\n    type == "external"  => {\n      "type": "external",\n      url,\n      openInNewTab\n    },\n  )\n\n            }\n          }\n        },\n      },\n    },\n    buttons[] {\n      _key,\n      \n  _type,\n  link {\n    \n  _type,\n  text,\n  ...select(\n    type == "internal" => {\n      "type": "internal",\n      "slug": reference->slug.current,\n      "documentType": reference->_type,\n    },\n    type == "external"  => {\n      "type": "external",\n      url,\n      openInNewTab\n    },\n  )\n\n  },\n  variant\n\n    }\n  },\n}\n': GLOBAL_DATA_QUERY_RESULT;
     '\n  *[_type == "page" && slug.current == $slug][0]{\n    title\n  }\n': PAGE_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "page" && defined(slug.current)].slug.current\n': ALL_PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "person" && defined(slug.current)] {\n    _id,\n    name,\n    "slug": slug.current,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top,\n  }\n\n    },\n    role\n  }\n': PEOPLE_QUERY_RESULT;

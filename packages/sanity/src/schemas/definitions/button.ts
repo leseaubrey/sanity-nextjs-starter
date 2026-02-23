@@ -9,6 +9,32 @@ export const button = defineType({
       name: "link",
       title: "Link",
       type: "link",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "variant",
+      title: "Variant",
+      type: "string",
+      options: {
+        list: [
+          { value: "default", title: "Default" },
+          { value: "outline", title: "Outline" },
+          { value: "secondary", title: "Secondary" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "default",
+      validation: (Rule) => Rule.required(),
     }),
   ],
+  preview: {
+    select: {
+      text: "link.text",
+    },
+    prepare({ text }) {
+      return {
+        title: `${text ?? "Untitled button"}`,
+      };
+    },
+  },
 });

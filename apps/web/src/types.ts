@@ -7,23 +7,16 @@ import type {
 } from "@workspace/sanity/types";
 
 // TODO: Export from sanity package?
-export type SanityDocumentType = "page";
+export type SanityDocumentType = "page" | null;
 
-export interface SanityLinkInternal {
-  type: "internal";
-  label: string;
-  slug: string | null;
-  documentType: SanityDocumentType | null;
-}
+export type SanityButtonsType = NonNullable<
+  NonNullable<GLOBAL_DATA_QUERY_RESULT["header"]>["buttons"]
+>;
 
-export interface SanityLinkExternal {
-  type: "external";
-  label: string;
-  url: string | null;
-  openInNewTab: boolean | null;
-}
+// TODO: Omit _key?
+export type SanityButtonType = NonNullable<SanityButtonsType>[number];
 
-export type SanityLinkType = SanityLinkInternal | SanityLinkExternal;
+export type SanityLinkType = NonNullable<SanityButtonType["link"]>;
 
 export type NavigationItem = NonNullable<
   NonNullable<

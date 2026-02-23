@@ -1456,24 +1456,80 @@
       "socialMediaLinks": {
         "type": "objectAttribute",
         "value": {
-          "type": "array",
-          "of": {
-            "type": "object",
-            "attributes": {
-              "_key": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
+          "type": "inline",
+          "name": "socialMediaLinks"
+        },
+        "optional": true
+      }
+    }
+  },
+  {
+    "name": "socialMediaLinks",
+    "type": "type",
+    "value": {
+      "type": "array",
+      "of": {
+        "type": "object",
+        "attributes": {
+          "platform": {
+            "type": "objectAttribute",
+            "value": {
+              "type": "union",
+              "of": [
+                {
+                  "type": "string",
+                  "value": "linkedin"
+                },
+                {
+                  "type": "string",
+                  "value": "x"
+                },
+                {
+                  "type": "string",
+                  "value": "facebook"
+                },
+                {
+                  "type": "string",
+                  "value": "instagram"
+                },
+                {
+                  "type": "string",
+                  "value": "youtube"
+                },
+                {
+                  "type": "string",
+                  "value": "github"
                 }
-              }
+              ]
             },
-            "rest": {
-              "type": "inline",
-              "name": "socialMediaLink"
+            "optional": false
+          },
+          "url": {
+            "type": "objectAttribute",
+            "value": {
+              "type": "string"
+            },
+            "optional": false
+          },
+          "_type": {
+            "type": "objectAttribute",
+            "value": {
+              "type": "string",
+              "value": "socialMediaLink"
             }
           }
         },
-        "optional": true
+        "rest": {
+          "type": "object",
+          "attributes": {
+            "_key": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -1527,20 +1583,13 @@
                     {
                       "type": "object",
                       "attributes": {
-                        "label": {
-                          "type": "objectAttribute",
-                          "value": {
-                            "type": "string"
-                          },
-                          "optional": false
-                        },
                         "link": {
                           "type": "objectAttribute",
                           "value": {
                             "type": "inline",
                             "name": "link"
                           },
-                          "optional": true
+                          "optional": false
                         },
                         "_type": {
                           "type": "objectAttribute",
@@ -1579,20 +1628,13 @@
                             "of": {
                               "type": "object",
                               "attributes": {
-                                "label": {
-                                  "type": "objectAttribute",
-                                  "value": {
-                                    "type": "string"
-                                  },
-                                  "optional": false
-                                },
                                 "link": {
                                   "type": "objectAttribute",
                                   "value": {
                                     "type": "inline",
                                     "name": "link"
                                   },
-                                  "optional": true
+                                  "optional": false
                                 },
                                 "_type": {
                                   "type": "objectAttribute",
@@ -1645,6 +1687,36 @@
           }
         },
         "optional": true
+      },
+      "buttons": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "buttons"
+        },
+        "optional": true
+      }
+    }
+  },
+  {
+    "name": "buttons",
+    "type": "type",
+    "value": {
+      "type": "array",
+      "of": {
+        "type": "object",
+        "attributes": {
+          "_key": {
+            "type": "objectAttribute",
+            "value": {
+              "type": "string"
+            }
+          }
+        },
+        "rest": {
+          "type": "inline",
+          "name": "button"
+        }
       }
     }
   },
@@ -1705,6 +1777,13 @@
                 "value": "external"
               }
             ]
+          },
+          "optional": false
+        },
+        "text": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
           },
           "optional": false
         },
@@ -2026,62 +2105,6 @@
     }
   },
   {
-    "name": "socialMediaLink",
-    "type": "type",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "socialMediaLink"
-          }
-        },
-        "platform": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "union",
-            "of": [
-              {
-                "type": "string",
-                "value": "linkedin"
-              },
-              {
-                "type": "string",
-                "value": "x"
-              },
-              {
-                "type": "string",
-                "value": "facebook"
-              },
-              {
-                "type": "string",
-                "value": "instagram"
-              },
-              {
-                "type": "string",
-                "value": "youtube"
-              },
-              {
-                "type": "string",
-                "value": "github"
-              }
-            ]
-          },
-          "optional": false
-        },
-        "url": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": false
-        }
-      }
-    }
-  },
-  {
     "name": "page",
     "type": "document",
     "attributes": {
@@ -2146,20 +2169,34 @@
             "value": "button"
           }
         },
-        "text": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": true
-        },
         "link": {
           "type": "objectAttribute",
           "value": {
             "type": "inline",
             "name": "link"
           },
-          "optional": true
+          "optional": false
+        },
+        "variant": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "default"
+              },
+              {
+                "type": "string",
+                "value": "outline"
+              },
+              {
+                "type": "string",
+                "value": "secondary"
+              }
+            ]
+          },
+          "optional": false
         }
       }
     }

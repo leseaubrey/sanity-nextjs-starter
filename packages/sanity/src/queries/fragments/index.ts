@@ -11,17 +11,26 @@ export const imageFragment = /* groq */ `
 `;
 
 export const linkFragment = /* groq */ `
-  label,
+  _type,
+  text,
   ...select(
-    link.type == "internal" => {
+    type == "internal" => {
       "type": "internal",
-      "slug": link.reference->slug.current,
-      "documentType": link.reference->_type,
+      "slug": reference->slug.current,
+      "documentType": reference->_type,
     },
-    link.type == "external" => {
+    type == "external"  => {
       "type": "external",
-      "url": link.url,
-      "openInNewTab": link.openInNewTab
+      url,
+      openInNewTab
     },
   )
+`;
+
+export const buttonFragment = /* groq */ `
+  _type,
+  link {
+    ${linkFragment}
+  },
+  variant
 `;
