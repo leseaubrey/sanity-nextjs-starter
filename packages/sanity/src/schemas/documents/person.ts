@@ -3,7 +3,7 @@ import { defineField, defineType } from "sanity";
 import { FIELD_GROUP, FIELD_GROUPS } from "../../constants";
 import { socialMediaLinks } from "../fields";
 
-export const personType = defineType({
+export const person = defineType({
   name: "person",
   title: "Person",
   type: "document",

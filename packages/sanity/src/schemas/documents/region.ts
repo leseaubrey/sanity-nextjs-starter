@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 import { FIELD_GROUP, FIELD_GROUPS } from "../../constants";
 
-export const regionType = defineType({
+export const region = defineType({
   name: "region",
   title: "Region",
   type: "document",

@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 import { FIELD_GROUP, FIELD_GROUPS } from "../../constants";
 
-export const publicationType = defineType({
+export const publication = defineType({
   name: "publication",
   title: "Publication",
   type: "document",
