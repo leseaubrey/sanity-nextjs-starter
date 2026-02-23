@@ -12,7 +12,7 @@ function getParentType(parent: unknown) {
   return undefined;
 }
 
-export const linkType = defineType({
+export const link = defineType({
   name: "link",
   title: "Link",
   type: "object",
@@ -29,6 +29,12 @@ export const linkType = defineType({
         layout: "radio",
       },
       initialValue: "internal",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "text",
+      title: "Text",
+      type: "string",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
