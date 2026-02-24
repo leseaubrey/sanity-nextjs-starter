@@ -13,17 +13,18 @@ import { SanityLink } from "../shared/sanity-link";
 
 interface DesktopNavigationProps {
   items: NavigationItem[];
+  className?: string;
 }
 
 export const DesktopNavigation = (props: DesktopNavigationProps) => {
-  const { items } = props;
+  const { items, className } = props;
 
   if (items.length === 0) {
     return null;
   }
 
   return (
-    <NavigationMenu className="ms-auto" viewport={false}>
+    <NavigationMenu className={className} viewport={false}>
       <NavigationMenuList>
         {items.map((item) => {
           if (item._type === "navigationGroup") {
@@ -41,7 +42,7 @@ export const DesktopNavigation = (props: DesktopNavigationProps) => {
                       return (
                         <li key={item._key}>
                           <NavigationMenuLink asChild>
-                            <SanityLink link={item} />
+                            <SanityLink {...item.link} />
                           </NavigationMenuLink>
                         </li>
                       );
@@ -58,7 +59,7 @@ export const DesktopNavigation = (props: DesktopNavigationProps) => {
                 asChild
                 className={navigationMenuTriggerStyle()}
               >
-                <SanityLink link={item} />
+                <SanityLink {...item.link} />
               </NavigationMenuLink>
             </NavigationMenuItem>
           );
