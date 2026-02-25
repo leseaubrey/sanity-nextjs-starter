@@ -1,6 +1,7 @@
 import type {
   EVENTS_QUERY_RESULT,
   GLOBAL_DATA_QUERY_RESULT,
+  PAGE_BY_SLUG_QUERY_RESULT,
   PEOPLE_QUERY_RESULT,
   POSTS_QUERY_RESULT,
   PUBLICATIONS_QUERY_RESULT,
@@ -13,10 +14,13 @@ export type SanityButtonsType = NonNullable<
   NonNullable<GLOBAL_DATA_QUERY_RESULT["header"]>["buttons"]
 >;
 
-// TODO: Omit _key?
-export type SanityButtonType = NonNullable<SanityButtonsType>[number];
+export type SanityButtonType = Omit<SanityButtonsType[number], "_key">;
 
-export type SanityLinkType = NonNullable<SanityButtonType["link"]>;
+export type SanityLinkType = SanityButtonType["link"];
+
+/**
+ * Navigation
+ */
 
 export type NavigationItem = NonNullable<
   NonNullable<
@@ -24,7 +28,32 @@ export type NavigationItem = NonNullable<
   >["items"]
 >[number];
 
-export type Event = NonNullable<EVENTS_QUERY_RESULT>["upcoming"][number];
-export type Publication = NonNullable<PUBLICATIONS_QUERY_RESULT>[number];
-export type Post = NonNullable<POSTS_QUERY_RESULT>[number];
+export type NavigationLink = Extract<
+  NavigationItem,
+  { _type: "navigationLink" }
+>;
+
+export type NavigationGroup = Extract<
+  NavigationItem,
+  { _type: "navigationGroup" }
+>;
+
+/**
+ * Page Builder
+ */
+
+export type PageBuilderType = NonNullable<
+  NonNullable<PAGE_BY_SLUG_QUERY_RESULT>["pageBuilder"]
+>;
+
+export type PageBuilderSectionType = PageBuilderType[number];
+export type PageBuilderSectionTypes = PageBuilderSectionType["_type"];
+
+/**
+ * Documents
+ */
+
 export type Person = NonNullable<PEOPLE_QUERY_RESULT>[number];
+export type Post = NonNullable<POSTS_QUERY_RESULT>[number];
+export type Publication = NonNullable<PUBLICATIONS_QUERY_RESULT>[number];
+export type Event = NonNullable<EVENTS_QUERY_RESULT>["upcoming"][number];

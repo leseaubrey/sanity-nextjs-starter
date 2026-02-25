@@ -9,6 +9,7 @@ import { VisualEditing } from "next-sanity/visual-editing";
 import { SanityLive } from "@workspace/sanity/live";
 import { getGlobalData } from "@workspace/sanity/queries";
 
+import { Footer } from "~/components/global/footer";
 import { Header } from "~/components/global/header";
 
 const fontSans = Geist({
@@ -33,7 +34,7 @@ export default async function RootLayout({
 }>) {
   const data = await getGlobalData();
 
-  const { header } = data;
+  const { header, footer, settings } = data;
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -43,6 +44,8 @@ export default async function RootLayout({
         <Header header={header} />
 
         {children}
+
+        <Footer footer={footer} settings={settings} />
 
         <SanityLive />
 
