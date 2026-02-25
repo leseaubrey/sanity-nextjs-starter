@@ -2179,7 +2179,7 @@
             },
             "rest": {
               "type": "inline",
-              "name": "cta"
+              "name": "ctaSection"
             }
           },
           {
@@ -2194,7 +2194,7 @@
             },
             "rest": {
               "type": "inline",
-              "name": "faq"
+              "name": "faqSection"
             }
           }
         ]
@@ -2468,7 +2468,7 @@
     }
   },
   {
-    "name": "faq",
+    "name": "faqSection",
     "type": "type",
     "value": {
       "type": "object",
@@ -2477,7 +2477,7 @@
           "type": "objectAttribute",
           "value": {
             "type": "string",
-            "value": "faq"
+            "value": "faqSection"
           }
         },
         "title": {
@@ -2491,7 +2491,7 @@
     }
   },
   {
-    "name": "cta",
+    "name": "ctaSection",
     "type": "type",
     "value": {
       "type": "object",
@@ -2500,7 +2500,7 @@
           "type": "objectAttribute",
           "value": {
             "type": "string",
-            "value": "cta"
+            "value": "ctaSection"
           }
         },
         "title": {

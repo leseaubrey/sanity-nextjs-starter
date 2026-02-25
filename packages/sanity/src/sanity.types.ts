@@ -360,10 +360,10 @@ export type Event = {
 export type PageBuilder = Array<
   | ({
       _key: string;
-    } & Cta)
+    } & CtaSection)
   | ({
       _key: string;
-    } & Faq)
+    } & FaqSection)
 >;
 
 export type NavigationGroup = {
@@ -414,13 +414,13 @@ export type Button = {
   variant: "default" | "outline" | "secondary";
 };
 
-export type Faq = {
-  _type: "faq";
+export type FaqSection = {
+  _type: "faqSection";
   title?: string;
 };
 
-export type Cta = {
-  _type: "cta";
+export type CtaSection = {
+  _type: "ctaSection";
   title?: string;
   content?: string;
 };
@@ -551,8 +551,8 @@ export type AllSanitySchemaTypes =
   | Link
   | Page
   | Button
-  | Faq
-  | Cta
+  | FaqSection
+  | CtaSection
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -789,18 +789,18 @@ export type GLOBAL_DATA_QUERY_RESULT = {
 
 // Source: src/queries/page.ts
 // Variable: PAGE_BY_SLUG_QUERY
-// Query: *[_type == "page" && slug.current == $slug][0]{    title,      pageBuilder[] {      _type == "cta" => {    _type,    _key,    title,    content  },      _type == "faq" => {    _type,    _key,    title  }  }  }
+// Query: *[_type == "page" && slug.current == $slug][0]{    title,      pageBuilder[] {      _type == "ctaSection" => {    _type,    _key,    title,    content  },      _type == "faqSection" => {    _type,    _key,    title  }  }  }
 export type PAGE_BY_SLUG_QUERY_RESULT = {
   title: string;
   pageBuilder: Array<
     | {
-        _type: "cta";
+        _type: "ctaSection";
         _key: string;
         title: string | null;
         content: string | null;
       }
     | {
-        _type: "faq";
+        _type: "faqSection";
         _key: string;
         title: string | null;
       }
@@ -1219,7 +1219,7 @@ declare module "@sanity/client" {
     '\n  *[_type == "event" && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    eventDate,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n,\n    },\n    content\n  }\n': EVENT_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "event" && defined(slug.current)].slug.current\n': ALL_EVENT_SLUGS_QUERY_RESULT;
     '\n{\n  "header": *[_type == "header"][0] {\n    primaryNavigation {\n      \n  items[] {\n    \n  _type == \'navigationLink\' => {\n    _key,\n    _type,\n    link { \n      \n  _type,\n  text,\n  ...select(\n    type == "internal" => {\n      "type": "internal",\n      "slug": reference->slug.current,\n      "documentType": reference->_type\n    },\n    type == "external"  => {\n      "type": "external",\n      url,\n      openInNewTab\n    }\n  )\n\n    }\n  }\n,\n    \n  _type == \'navigationGroup\' => {\n    _key,\n    _type,\n    title,\n    items[] {\n      \n  _type == \'navigationLink\' => {\n    _key,\n    _type,\n    link { \n      \n  _type,\n  text,\n  ...select(\n    type == "internal" => {\n      "type": "internal",\n      "slug": reference->slug.current,\n      "documentType": reference->_type\n    },\n    type == "external"  => {\n      "type": "external",\n      url,\n      openInNewTab\n    }\n  )\n\n    }\n  }\n\n    }\n  }\n\n  },\n\n    },\n    buttons[] {\n      _key,\n      \n  _type,\n  link {\n    \n  _type,\n  text,\n  ...select(\n    type == "internal" => {\n      "type": "internal",\n      "slug": reference->slug.current,\n      "documentType": reference->_type\n    },\n    type == "external"  => {\n      "type": "external",\n      url,\n      openInNewTab\n    }\n  )\n\n  },\n  variant\n\n    }\n  },\n  "footer": *[_type == "footer"][0] {\n    strapline,\n    columns[] {\n      _key,\n      title,\n      links[] {\n        _key,\n        \n  _type,\n  text,\n  ...select(\n    type == "internal" => {\n      "type": "internal",\n      "slug": reference->slug.current,\n      "documentType": reference->_type\n    },\n    type == "external"  => {\n      "type": "external",\n      url,\n      openInNewTab\n    }\n  )\n\n      }\n    },\n    copyrightText,\n    subFooterNavigation {\n      \n  items[] {\n    \n  _type == \'navigationLink\' => {\n    _key,\n    _type,\n    link { \n      \n  _type,\n  text,\n  ...select(\n    type == "internal" => {\n      "type": "internal",\n      "slug": reference->slug.current,\n      "documentType": reference->_type\n    },\n    type == "external"  => {\n      "type": "external",\n      url,\n      openInNewTab\n    }\n  )\n\n    }\n  }\n\n  },\n\n    },\n  },\n  "settings": *[_type == "settings"][0] {\n    socialMediaLinks\n  }\n}\n': GLOBAL_DATA_QUERY_RESULT;
-    '\n  *[_type == "page" && slug.current == $slug][0]{\n    title,\n    \n  pageBuilder[] {\n    \n  _type == "cta" => {\n    _type,\n    _key,\n    title,\n    content\n  }\n,\n    \n  _type == "faq" => {\n    _type,\n    _key,\n    title\n  }\n\n  }\n\n  }\n': PAGE_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "page" && slug.current == $slug][0]{\n    title,\n    \n  pageBuilder[] {\n    \n  _type == "ctaSection" => {\n    _type,\n    _key,\n    title,\n    content\n  }\n,\n    \n  _type == "faqSection" => {\n    _type,\n    _key,\n    title\n  }\n\n  }\n\n  }\n': PAGE_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "page" && defined(slug.current)].slug.current\n': ALL_PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "person" && defined(slug.current)] {\n    _id,\n    name,\n    "slug": slug.current,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n    },\n    role\n  }\n': PEOPLE_QUERY_RESULT;
     '\n  *[_type == "person" && slug.current == $slug][0]{\n    _id,\n    name,\n    "slug": slug.current,\n    image {\n      \n  "id": asset._ref,\n  "preview": asset->metadata.lqip,\n  hotspot { x, y },\n  crop {\n    bottom,\n    left,\n    right,\n    top\n  }\n\n    },\n    role,\n    bio,\n    socialMediaLinks\n  }\n': PERSON_BY_SLUG_QUERY_RESULT;

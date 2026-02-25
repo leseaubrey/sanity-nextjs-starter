@@ -1,8 +1,8 @@
 import { defineField, defineType } from "sanity";
 
-export const cta = defineType({
-  name: "cta",
-  title: "Call To Action",
+export const ctaSection = defineType({
+  name: "ctaSection",
+  title: "Call to Action",
   type: "object",
   fields: [
     defineField({

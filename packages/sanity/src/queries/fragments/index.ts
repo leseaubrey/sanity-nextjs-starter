@@ -77,8 +77,8 @@ export const twoLevelNavigationFragment = /* groq */ `
  * Page Builder
  */
 
-const ctaFragment = /* groq */ `
-  _type == "cta" => {
+const ctaSectionFragment = /* groq */ `
+  _type == "ctaSection" => {
     _type,
     _key,
     title,
@@ -86,8 +86,8 @@ const ctaFragment = /* groq */ `
   }
 `;
 
-const faqFragment = /* groq */ `
-  _type == "faq" => {
+const faqSectionFragment = /* groq */ `
+  _type == "faqSection" => {
     _type,
     _key,
     title
@@ -96,7 +96,7 @@ const faqFragment = /* groq */ `
 
 export const pageBuilderFragment = /* groq */ `
   pageBuilder[] {
-    ${ctaFragment},
-    ${faqFragment}
+    ${ctaSectionFragment},
+    ${faqSectionFragment}
   }
 `;
