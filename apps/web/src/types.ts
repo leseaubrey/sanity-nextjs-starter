@@ -5,6 +5,7 @@ import type {
   PEOPLE_QUERY_RESULT,
   POSTS_QUERY_RESULT,
   PUBLICATIONS_QUERY_RESULT,
+  SocialMediaLinks,
 } from "@workspace/sanity/types";
 
 // TODO: Export from sanity package?
@@ -17,6 +18,10 @@ export type SanityButtonsType = NonNullable<
 export type SanityButtonType = Omit<SanityButtonsType[number], "_key">;
 
 export type SanityLinkType = SanityButtonType["link"];
+
+export type SocialMediaLinksType = SocialMediaLinks;
+
+export type SocialMediaLinkType = SocialMediaLinks[number];
 
 /**
  * Navigation

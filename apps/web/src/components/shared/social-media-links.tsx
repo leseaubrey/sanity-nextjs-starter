@@ -1,13 +1,8 @@
-import type { SocialMediaLink } from "@workspace/sanity/types";
-
+import type { SocialMediaLinksType, SocialMediaLinkType } from "~/types";
 import { Facebook, GitHub, Instagram, LinkedIn, X, YouTube } from "../icons";
 
-type SocialMediaLinks = ({
-  _key: string;
-} & SocialMediaLink)[];
-
 // Icon mapping
-const ICONS: Record<SocialMediaLink["platform"], React.ReactNode> = {
+const ICONS: Record<SocialMediaLinkType["platform"], React.ReactNode> = {
   facebook: <Facebook />,
   github: <GitHub />,
   instagram: <Instagram />,
@@ -17,7 +12,7 @@ const ICONS: Record<SocialMediaLink["platform"], React.ReactNode> = {
 };
 
 // Display name mapping
-const DISPLAY_NAMES: Record<SocialMediaLink["platform"], string> = {
+const DISPLAY_NAMES: Record<SocialMediaLinkType["platform"], string> = {
   facebook: "Facebook",
   github: "GitHub",
   instagram: "Instagram",
@@ -27,7 +22,7 @@ const DISPLAY_NAMES: Record<SocialMediaLink["platform"], string> = {
 };
 
 interface SocialMediaLinksProps {
-  links: SocialMediaLinks;
+  links: SocialMediaLinksType;
 }
 
 export const SocialMediaLinks = (props: SocialMediaLinksProps) => {
