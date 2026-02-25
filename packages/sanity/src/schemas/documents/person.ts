@@ -1,9 +1,8 @@
 import { defineField, defineType } from "sanity";
 
 import { FIELD_GROUP, FIELD_GROUPS } from "../../constants";
-import { socialMediaLinks } from "../fields";
 
-export const personType = defineType({
+export const person = defineType({
   name: "person",
   title: "Person",
   type: "document",
@@ -45,7 +44,12 @@ export const personType = defineType({
       type: "text",
       group: FIELD_GROUP.CONTENT,
     }),
-    socialMediaLinks,
+    defineField({
+      name: "socialMediaLinks",
+      title: "Social Media Links",
+      type: "socialMediaLinks",
+      group: FIELD_GROUP.CONTENT,
+    }),
   ],
   preview: {
     select: {

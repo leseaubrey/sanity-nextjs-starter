@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 import { FIELD_GROUP, FIELD_GROUPS } from "../../constants";
 
-export const eventType = defineType({
+export const event = defineType({
   name: "event",
   title: "Event",
   type: "document",

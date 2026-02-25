@@ -1,5 +1,7 @@
 import { fetchAllPageSlugs, fetchPageBySlug } from "@workspace/sanity/queries";
 
+import { PageBuilder } from "~/components/page-builder";
+
 export const generateStaticParams = async () => {
   const result = await fetchAllPageSlugs();
 
@@ -22,11 +24,13 @@ export default async function DynamicPage({
     return <div>Page not found</div>;
   }
 
-  const { title } = pageData;
+  const { title, pageBuilder } = pageData;
 
   return (
     <div className="container mx-auto py-16">
       <h1 className="text-2xl font-bold">{title}</h1>
+
+      <PageBuilder pageBuilder={pageBuilder ?? []} />
     </div>
   );
 }

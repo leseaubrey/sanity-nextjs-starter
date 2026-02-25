@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 import { FIELD_GROUP, FIELD_GROUPS } from "../../constants";
 
-export const pageType = defineType({
+export const page = defineType({
   name: "page",
   title: "Page",
   type: "document",
@@ -25,6 +25,12 @@ export const pageType = defineType({
         maxLength: 96,
       },
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "pageBuilder",
+      title: "Page Builder",
+      type: "pageBuilder",
+      group: FIELD_GROUP.CONTENT,
     }),
   ],
   preview: {

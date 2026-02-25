@@ -1,19 +1,25 @@
-import { eventType } from "./event";
-import { pageType } from "./page";
-import { personType } from "./person";
-import { postType } from "./post";
-import { projectType } from "./project";
-import { publicationType } from "./publication";
-import { regionType } from "./region";
-import { themeType } from "./theme";
+import { event } from "./event";
+import { footer } from "./footer";
+import { header } from "./header";
+import { page } from "./page";
+import { person } from "./person";
+import { post } from "./post";
+import { project } from "./project";
+import { publication } from "./publication";
+import { region } from "./region";
+import { settings } from "./settings";
+import { theme } from "./theme";
 
 export const documents = [
-  eventType,
-  pageType,
-  personType,
-  postType,
-  publicationType,
-  projectType,
-  regionType,
-  themeType,
+  event,
+  footer,
+  header,
+  page,
+  person,
+  post,
+  project,
+  publication,
+  region,
+  settings,
+  theme,
 ];

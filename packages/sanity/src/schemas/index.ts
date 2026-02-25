@@ -1,8 +1,12 @@
 import { definitions } from "./definitions";
 import { documents } from "./documents";
+import { sections } from "./sections";
 
 export const schemaTypes = [
-  // Fields
+  // Sections
+  ...sections,
+
+  // Definitions
   ...definitions,
 
   // Documents

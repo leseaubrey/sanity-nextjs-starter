@@ -7,6 +7,10 @@ import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity/visual-editing";
 
 import { SanityLive } from "@workspace/sanity/live";
+import { getGlobalData } from "@workspace/sanity/queries";
+
+import { Footer } from "~/components/global/footer";
+import { Header } from "~/components/global/header";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -28,12 +32,20 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const data = await getGlobalData();
+
+  const { header, footer, settings } = data;
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased`}
       >
+        <Header header={header} />
+
         {children}
+
+        <Footer footer={footer} settings={settings} />
 
         <SanityLive />
 

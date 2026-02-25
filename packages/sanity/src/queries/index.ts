@@ -2,6 +2,7 @@
 import "../sanity.types";
 
 export * from "./event";
+export * from "./global";
 export * from "./page";
 export * from "./person";
 export * from "./post";
