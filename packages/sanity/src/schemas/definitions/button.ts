@@ -22,6 +22,7 @@ export const button = defineType({
           { value: "secondary", title: "Secondary" },
         ],
         layout: "radio",
+        direction: "horizontal",
       },
       initialValue: "default",
       validation: (Rule) => Rule.required(),

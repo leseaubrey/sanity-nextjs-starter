@@ -26,6 +26,12 @@ export const page = defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "pageBuilder",
+      title: "Page Builder",
+      type: "pageBuilder",
+      group: FIELD_GROUP.CONTENT,
+    }),
   ],
   preview: {
     select: {

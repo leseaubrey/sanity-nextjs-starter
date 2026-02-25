@@ -2,10 +2,12 @@ import { defineQuery } from "next-sanity";
 
 import { client } from "../client";
 import { sanityFetch } from "../live";
+import { pageBuilderFragment } from "./fragments";
 
 const PAGE_BY_SLUG_QUERY = defineQuery(`
   *[_type == "page" && slug.current == $slug][0]{
-    title
+    title,
+    ${pageBuilderFragment}
   }
 `);
 

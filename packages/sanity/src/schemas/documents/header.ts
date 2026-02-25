@@ -1,13 +1,15 @@
 import { defineField, defineType } from "sanity";
 
-import { createNavigationField } from "../helpers";
-
 export const header = defineType({
   name: "header",
   title: "Header",
   type: "document",
   fields: [
-    createNavigationField("primaryNavigation", "Primary Navigation"),
+    defineField({
+      name: "primaryNavigation",
+      title: "Primary Navigation",
+      type: "twoLevelNavigation",
+    }),
     defineField({
       name: "buttons",
       title: "Buttons",

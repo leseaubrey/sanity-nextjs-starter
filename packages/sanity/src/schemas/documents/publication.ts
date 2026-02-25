@@ -57,7 +57,6 @@ export const publication = defineType({
       group: FIELD_GROUP.CONTENT,
       of: [{ type: "block" }],
     }),
-
     defineField({
       name: "authors",
       title: "Authors",
